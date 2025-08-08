@@ -31,6 +31,8 @@ public partial class SanPham
     public string TenSanPhamChiTiet 
     {
         get
-        { return MaLoaiSanPhamNavigation.TenSanPhamChiTiet ?? "chua ro"; }
+        {
+            return MaLoaiSanPhamNavigation?.TenSanPhamChiTiet ?? "chua ro";
+        }
     }
 }

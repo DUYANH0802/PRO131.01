@@ -11,14 +11,22 @@ namespace PRO131_01.Services
     public class SanPhamServices
     {
         GenericRepository<SanPham> _repository;
+        GenericRepository<SanPhamChiTiet> _SPCTrepository; 
 
         public SanPhamServices() 
         {
             _repository = new GenericRepository<SanPham>();
+            _SPCTrepository = new GenericRepository<SanPhamChiTiet>();
+ 
         }
         public List<SanPham> GetProducts() 
         {
             return _repository.GetAll();
+        }
+
+        public List<SanPhamChiTiet> GetProductsTypes()
+        {
+            return _SPCTrepository.GetAll();
         }
         public List<SanPham> GetProductsWithInclude(params string[] includes) 
         {
