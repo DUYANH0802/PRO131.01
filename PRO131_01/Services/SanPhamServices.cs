@@ -11,7 +11,8 @@ namespace PRO131_01.Services
     public class SanPhamServices
     {
         GenericRepository<SanPham> _repository;
-        GenericRepository<SanPhamChiTiet> _SPCTrepository; 
+        GenericRepository<SanPhamChiTiet> _SPCTrepository;
+       
 
         public SanPhamServices() 
         {
