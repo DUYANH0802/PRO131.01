@@ -1,3 +1,6 @@
+﻿using PRO131_01.Forms; 
+using System.Windows.Forms;
+
 namespace PRO131_01
 {
     internal static class Program
@@ -8,10 +11,8 @@ namespace PRO131_01
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new FormMain()); 
         }
     }
 }
