@@ -3,6 +3,8 @@ using PRO131_01.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,8 +12,8 @@ namespace PRO131_01.Repositories
 {
     public class GenericRepository<T> where T : class
     {
-        readonly CategoryDbContext _context;
-        readonly DbSet<T> _dbSet;
+        readonly public CategoryDbContext _context;
+        readonly public DbSet<T> _dbSet;
         public GenericRepository() 
         {
             _context = new CategoryDbContext();
@@ -50,6 +52,28 @@ namespace PRO131_01.Repositories
             }
             return query.ToList();
         }
+        public List<T> Loc(params Expression<Func<T, bool>>[] predicates)
+        {
+            var query = _dbSet.AsQueryable();
+            foreach (var pre in predicates)
+            {
+                query = query.Where(pre);
+            }
+
+            return query.ToList();
+        }
+
+        public List<T> Loc(params string[] predicates)
+        {
+            var query = _dbSet.AsQueryable();
+            foreach (var pre in predicates)
+            {
+                query = query.Where(pre);
+            }
+
+            return query.ToList();
+        }
+
 
     }
 }

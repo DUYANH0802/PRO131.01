@@ -44,9 +44,15 @@
             buttonLamMoi = new Button();
             buttonXoa = new Button();
             pictureBox1 = new PictureBox();
+            groupBox1 = new GroupBox();
+            comboBoxLSP = new ComboBox();
+            label7 = new Label();
+            textBoxTimKiem = new TextBox();
+            label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownSoLuong).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
@@ -56,12 +62,12 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock = DockStyle.Bottom;
-            dataGridView1.Location = new Point(0, 516);
+            dataGridView1.Location = new Point(0, 523);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1170, 228);
+            dataGridView1.Size = new Size(1545, 228);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
@@ -155,7 +161,7 @@
             // 
             // buttonThem
             // 
-            buttonThem.Location = new Point(173, 304);
+            buttonThem.Location = new Point(14, 322);
             buttonThem.Name = "buttonThem";
             buttonThem.Size = new Size(94, 29);
             buttonThem.TabIndex = 13;
@@ -165,7 +171,7 @@
             // 
             // buttonSua
             // 
-            buttonSua.Location = new Point(322, 304);
+            buttonSua.Location = new Point(163, 322);
             buttonSua.Name = "buttonSua";
             buttonSua.Size = new Size(94, 29);
             buttonSua.TabIndex = 14;
@@ -175,7 +181,7 @@
             // 
             // buttonLamMoi
             // 
-            buttonLamMoi.Location = new Point(632, 304);
+            buttonLamMoi.Location = new Point(473, 322);
             buttonLamMoi.Name = "buttonLamMoi";
             buttonLamMoi.Size = new Size(94, 29);
             buttonLamMoi.TabIndex = 15;
@@ -185,7 +191,7 @@
             // 
             // buttonXoa
             // 
-            buttonXoa.Location = new Point(481, 304);
+            buttonXoa.Location = new Point(322, 322);
             buttonXoa.Name = "buttonXoa";
             buttonXoa.Size = new Size(94, 29);
             buttonXoa.TabIndex = 16;
@@ -195,7 +201,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(880, 163);
+            pictureBox1.Location = new Point(1192, 21);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(278, 203);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -203,11 +209,62 @@
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(comboBoxLSP);
+            groupBox1.Controls.Add(label7);
+            groupBox1.Controls.Add(textBoxTimKiem);
+            groupBox1.Controls.Add(label6);
+            groupBox1.Location = new Point(619, 209);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(489, 117);
+            groupBox1.TabIndex = 18;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Bộ lọc ";
+            // 
+            // comboBoxLSP
+            // 
+            comboBoxLSP.FormattingEnabled = true;
+            comboBoxLSP.Location = new Point(155, 71);
+            comboBoxLSP.Name = "comboBoxLSP";
+            comboBoxLSP.Size = new Size(236, 28);
+            comboBoxLSP.TabIndex = 13;
+            comboBoxLSP.SelectedIndexChanged += comboBoxLSP_SelectedIndexChanged;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(50, 71);
+            label7.Name = "label7";
+            label7.Size = new Size(105, 20);
+            label7.TabIndex = 5;
+            label7.Text = "Loại sản phẩm";
+            label7.Click += label7_Click;
+            // 
+            // textBoxTimKiem
+            // 
+            textBoxTimKiem.Location = new Point(155, 21);
+            textBoxTimKiem.Name = "textBoxTimKiem";
+            textBoxTimKiem.Size = new Size(236, 27);
+            textBoxTimKiem.TabIndex = 4;
+            textBoxTimKiem.TextChanged += textBox1_TextChanged_1;
+            textBoxTimKiem.KeyPress += textBoxTimKiem_KeyPress;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(50, 24);
+            label6.Name = "label6";
+            label6.Size = new Size(70, 20);
+            label6.TabIndex = 3;
+            label6.Text = "Tìm kiếm\r\n";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1170, 744);
+            ClientSize = new Size(1545, 751);
+            Controls.Add(groupBox1);
             Controls.Add(pictureBox1);
             Controls.Add(buttonXoa);
             Controls.Add(buttonLamMoi);
@@ -230,6 +287,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownSoLuong).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -252,5 +311,10 @@
         private Button buttonLamMoi;
         private Button buttonXoa;
         private PictureBox pictureBox1;
+        private GroupBox groupBox1;
+        private TextBox textBoxTimKiem;
+        private Label label6;
+        private Label label7;
+        private ComboBox comboBoxLSP;
     }
 }

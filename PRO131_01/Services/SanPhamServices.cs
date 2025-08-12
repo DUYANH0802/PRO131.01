@@ -46,5 +46,9 @@ namespace PRO131_01.Services
         {
             _repository.Remove(sp);
         }
+        public List<SanPham> LocSanPhamTheoLoai(int maLoaiSanPham) 
+        {
+            return _repository.Loc(sp=>sp.MaLoaiSanPham==maLoaiSanPham);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PRO131_01.Models;
+﻿using PRO131_01.Extentions;
+using PRO131_01.Models;
 using PRO131_01.Services;
 
 namespace PRO131_01
@@ -20,12 +21,17 @@ namespace PRO131_01
             comboBoxLoaiSp.DataSource = _sanPhamservice.GetProductsTypes();
             comboBoxLoaiSp.DisplayMember = nameof(SanPhamChiTiet.TenSanPhamChiTiet);
             comboBoxLoaiSp.ValueMember = nameof(SanPhamChiTiet.MaSanPhamChiTiet);
+            comboBoxLSP.DataSource = _sanPhamservice.GetProductsTypes();
+            comboBoxLSP.DisplayMember = nameof(SanPhamChiTiet.TenSanPhamChiTiet);
+            comboBoxLSP.ValueMember = nameof(SanPhamChiTiet.MaSanPhamChiTiet);
+
 
         }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
 
         }
 
@@ -188,7 +194,37 @@ namespace PRO131_01
             comboBoxLoaiSp.SelectedIndex = -1;
             numericUpDownSoLuong.Value = 0;
             pictureBox1.Image = null;
+            LoadTable();
 
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxTimKiem_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar == (char)Keys.Enter))
+            {
+                var list = _sanPhamservice.GetProducts();
+
+                dataGridView1.DataSource = list.TimKiem(textBoxTimKiem.Text.Trim());
+                //  string a = "";
+                // a.Contains("3", StringComparison.CurrentCultureIgnoreCase);
+            }
+
+        }
+
+        private void comboBoxLSP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+         
         }
     }
 }
