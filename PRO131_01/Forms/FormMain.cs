@@ -57,6 +57,11 @@ namespace PRO131_01.Forms
                         ChangeForm(new FormQLKH());
                         break;
                     }
+                case "qlnv":
+                    {
+                        ChangeForm(new FormQLNV());
+                        break;
+                    }
             }
         }
     }
