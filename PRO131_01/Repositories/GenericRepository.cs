@@ -73,6 +73,10 @@ namespace PRO131_01.Repositories
 
             return query.ToList();
         }
+        public T GetById(int id)
+        {
+            return _dbSet.Find(id);
+        }
 
 
     }
