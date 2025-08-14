@@ -83,7 +83,7 @@
             // lbSodienthoai
             // 
             lbSodienthoai.AutoSize = true;
-            lbSodienthoai.Location = new Point(18, 147);
+            lbSodienthoai.Location = new Point(23, 147);
             lbSodienthoai.Name = "lbSodienthoai";
             lbSodienthoai.Size = new Size(97, 20);
             lbSodienthoai.TabIndex = 4;
@@ -92,7 +92,7 @@
             // lbEmail
             // 
             lbEmail.AutoSize = true;
-            lbEmail.Location = new Point(18, 199);
+            lbEmail.Location = new Point(23, 199);
             lbEmail.Name = "lbEmail";
             lbEmail.Size = new Size(46, 20);
             lbEmail.TabIndex = 5;
@@ -101,7 +101,7 @@
             // lbDiachi
             // 
             lbDiachi.AutoSize = true;
-            lbDiachi.Location = new Point(22, 247);
+            lbDiachi.Location = new Point(23, 247);
             lbDiachi.Name = "lbDiachi";
             lbDiachi.Size = new Size(55, 20);
             lbDiachi.TabIndex = 6;
@@ -117,7 +117,7 @@
             // lbGioitinh
             // 
             lbGioitinh.AutoSize = true;
-            lbGioitinh.Location = new Point(23, 309);
+            lbGioitinh.Location = new Point(23, 290);
             lbGioitinh.Name = "lbGioitinh";
             lbGioitinh.Size = new Size(65, 20);
             lbGioitinh.TabIndex = 8;
@@ -182,6 +182,7 @@
             // 
             // dgvQLNV
             // 
+            dgvQLNV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvQLNV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableLayoutPanel1.SetColumnSpan(dgvQLNV, 2);
             dgvQLNV.Dock = DockStyle.Bottom;
@@ -190,6 +191,7 @@
             dgvQLNV.RowHeadersWidth = 51;
             dgvQLNV.Size = new Size(1132, 226);
             dgvQLNV.TabIndex = 18;
+            dgvQLNV.CellClick += dgvQLNV_CellClick;
             // 
             // tableLayoutPanel1
             // 
@@ -234,7 +236,7 @@
             // cbGioitinh
             // 
             cbGioitinh.FormattingEnabled = true;
-            cbGioitinh.Location = new Point(164, 301);
+            cbGioitinh.Location = new Point(164, 290);
             cbGioitinh.Name = "cbGioitinh";
             cbGioitinh.Size = new Size(183, 28);
             cbGioitinh.TabIndex = 17;

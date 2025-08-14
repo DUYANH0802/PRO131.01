@@ -27,30 +27,64 @@ namespace PRO131_01.Forms
         }
         private void LoadTable()
         {
+            // Khởi tạo giá trị cho ComboBox giới tính
+            cbGioitinh.Items.AddRange(new string[] { "Nam", "Nữ"});
+            cbGioitinh.SelectedIndex = -1; // Chưa chọn giá trị mặc định
+
             dgvQLNV.DataSource = _repository.GetAll();
             dgvQLNV.AutoGenerateColumns = false;
             dgvQLNV.Columns.Clear();
 
-            var columns = new (string Name, string Header)[]
+            var columns = new (string Name, string Header, string DataProperty)[]
             {
-                (nameof(NhanVien.MaNhanVien), "Mã NV"),
-                (nameof(NhanVien.HoTen), "Họ tên"),
-                (nameof(NhanVien.Sdt), "SĐT"),
-                (nameof(NhanVien.Email), "Email"),
-                (nameof(NhanVien.DiaChi), "Địa chỉ"),
-                (nameof(NhanVien.GioiTinh), "Giới tính")
+            ("colMaNV", "Mã NV", nameof(NhanVien.MaNhanVien)),
+            ("colHoTen", "Họ tên", nameof(NhanVien.HoTen)),
+            ("colSdt", "SĐT", nameof(NhanVien.Sdt)),
+            ("colEmail", "Email", nameof(NhanVien.Email)),
+            ("colDiaChi", "Địa chỉ", nameof(NhanVien.DiaChi)),
+            ("colGioiTinh", "Giới tính", nameof(NhanVien.GioiTinh))
             };
 
             foreach (var col in columns)
             {
-                dgvQLNV.Columns.Add(col.Name, col.Header);
+                var dataColumn = new DataGridViewTextBoxColumn
+                {
+                    Name = col.Name,
+                    HeaderText = col.Header,
+                    DataPropertyName = col.DataProperty // Liên kết với property của NhanVien
+                };
+                dgvQLNV.Columns.Add(dataColumn);
             }
+        }
+        private void dgvQLNV_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvQLNV.RowCount) return;
 
-            dgvQLNV.CellClick += (s, e) =>
+            try
             {
-                if (e.RowIndex >= 0)
-                    _selectedNhanVien = dgvQLNV.Rows[e.RowIndex].DataBoundItem as NhanVien;
-            };
+                var row = dgvQLNV.Rows[e.RowIndex];
+                txtMaNV.Text = row.Cells["colMaNV"].Value?.ToString() ?? "";
+                txtHoten.Text = row.Cells["colHoTen"].Value?.ToString() ?? "";
+                txtSDT.Text = row.Cells["colSdt"].Value?.ToString() ?? "";
+                txtEmail.Text = row.Cells["colEmail"].Value?.ToString() ?? "";
+                txtDiachi.Text = row.Cells["colDiaChi"].Value?.ToString() ?? "";
+
+                // Xử lý giới tính
+                string gioiTinh = dgvQLNV.Rows[e.RowIndex].Cells["colGioiTinh"].Value?.ToString();
+                if (!string.IsNullOrEmpty(gioiTinh))
+                {
+                    int index = cbGioitinh.FindStringExact(gioiTinh);
+                    cbGioitinh.SelectedIndex = index >= 0 ? index : -1;
+                }
+                else
+                {
+                    cbGioitinh.SelectedIndex = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi chọn nhân viên: {ex.Message}");
+            }
         }
 
         private void btnThem_Click(object sender, EventArgs e)
@@ -162,7 +196,7 @@ namespace PRO131_01.Forms
                 try
                 {
                     _repository.Remove(nhanVien);
-                    
+
                     LoadTable();
 
                     MessageBox.Show("Xóa nhân viên thành công!",
@@ -189,5 +223,7 @@ namespace PRO131_01.Forms
             cbGioitinh.SelectedIndex = -1;
             txtMaNV.Focus();
         }
+
+
     }
 }
