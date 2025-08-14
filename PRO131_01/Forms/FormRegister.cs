@@ -78,5 +78,10 @@ namespace PRO131_01.Forms
         {
             txtNewPass.UseSystemPasswordChar = !chkShowPassReg.Checked;
         }
+
+        private void btnRegister_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

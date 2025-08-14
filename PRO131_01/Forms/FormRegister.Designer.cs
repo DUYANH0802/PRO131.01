@@ -101,6 +101,7 @@
             btnRegister.TabIndex = 6;
             btnRegister.Text = "Đăng ký";
             btnRegister.UseVisualStyleBackColor = true;
+            btnRegister.Click += btnRegister_Click;
             // 
             // chkShowPassReg
             // 
