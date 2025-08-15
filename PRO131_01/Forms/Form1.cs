@@ -17,6 +17,18 @@ namespace PRO131_01
         }
         private void LoadTable()
         {
+            dataGridView1.DataSource = _sanPhamservice
+                .GetProductsWithInclude(nameof(SanPham.MaLoaiSanPhamNavigation))
+                .Select(sp => new
+                {
+                    sp.MaSanPham,
+                    sp.TenSanPham,
+                    sp.SoLuongTonKho,
+                    sp.GiaBan,
+                    sp.MoTa,
+                    sp.HinhAnh
+                })
+                .ToList();
             dataGridView1.DataSource = _sanPhamservice.GetProductsWithInclude(nameof(SanPham.MaLoaiSanPhamNavigation));
             comboBoxLoaiSp.DataSource = _sanPhamservice.GetProductsTypes();
             comboBoxLoaiSp.DisplayMember = nameof(SanPhamChiTiet.TenSanPhamChiTiet);
@@ -74,24 +86,22 @@ namespace PRO131_01
         {
             if (dataGridView1.CurrentRow?.DataBoundItem is SanPham sanPham)
             {
-                // Mã sản phẩm
                 textBoxMa.Text = sanPham.MaSanPham.ToString();
-
-                // Tên sản phẩm
                 textBoxTen.Text = sanPham.TenSanPham ?? string.Empty;
-
-                // Số lượng (int? -> decimal)
                 numericUpDownSoLuong.Value = (decimal)(sanPham.SoLuongTonKho ?? 0);
 
-                // Gán loại sản phẩm vào ComboBox nếu có
+                // Loại sản phẩm
                 if (comboBoxLoaiSp.DataSource != null && sanPham.MaLoaiSanPham != null)
                 {
                     comboBoxLoaiSp.SelectedValue = sanPham.MaLoaiSanPham;
                 }
                 else
                 {
-                    comboBoxLoaiSp.SelectedIndex = -1; // không chọn gì
+                    comboBoxLoaiSp.SelectedIndex = -1;
                 }
+
+                // Hiển thị giá bán
+                txtGiaBan.Text = sanPham.GiaBan?.ToString() ?? "0";
 
                 // Hiển thị ảnh
                 string path = @"../../../Images/NoImage.png";
@@ -99,10 +109,8 @@ namespace PRO131_01
                 {
                     path = sanPham.HinhAnh;
                 }
-
                 pictureBox1.Image = Image.FromFile(path);
                 pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-
             }
         }
 
@@ -155,6 +163,11 @@ namespace PRO131_01
 
             sanPham.SoLuongTonKho = (int)numericUpDownSoLuong.Value;
             sanPham.HinhAnh = currentImagePath;
+            // Gán giá bán
+            if (decimal.TryParse(txtGiaBan.Text, out decimal gia))
+                sanPham.GiaBan = gia;
+            else
+                sanPham.GiaBan = null;
         }
 
         private void buttonThem_Click(object sender, EventArgs e)
@@ -193,6 +206,7 @@ namespace PRO131_01
             RichTextBoxMoTa.Text = "";
             comboBoxLoaiSp.SelectedIndex = -1;
             numericUpDownSoLuong.Value = 0;
+            txtGiaBan.Text = "0";
             pictureBox1.Image = null;
             LoadTable();
 
@@ -223,8 +237,17 @@ namespace PRO131_01
 
         private void comboBoxLSP_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
-         
+
+
+        }
+
+        private void txtGiaBan_TextChanged(object sender, EventArgs e)
+        {
+            // Có thể kiểm tra nhập số
+            if (!decimal.TryParse(txtGiaBan.Text, out _))
+            {
+                txtGiaBan.Text = "0";
+            }
         }
     }
 }

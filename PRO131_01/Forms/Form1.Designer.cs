@@ -49,6 +49,8 @@
             label7 = new Label();
             textBoxTimKiem = new TextBox();
             label6 = new Label();
+            txtGiaBan = new TextBox();
+            lblGiaBan = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownSoLuong).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -215,7 +217,7 @@
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(textBoxTimKiem);
             groupBox1.Controls.Add(label6);
-            groupBox1.Location = new Point(619, 209);
+            groupBox1.Location = new Point(1044, 258);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(489, 117);
             groupBox1.TabIndex = 18;
@@ -259,11 +261,30 @@
             label6.TabIndex = 3;
             label6.Text = "Tìm kiếm\r\n";
             // 
+            // txtGiaBan
+            // 
+            txtGiaBan.Location = new Point(631, 197);
+            txtGiaBan.Name = "txtGiaBan";
+            txtGiaBan.Size = new Size(167, 27);
+            txtGiaBan.TabIndex = 20;
+            txtGiaBan.TextChanged += txtGiaBan_TextChanged;
+            // 
+            // lblGiaBan
+            // 
+            lblGiaBan.AutoSize = true;
+            lblGiaBan.Location = new Point(522, 200);
+            lblGiaBan.Name = "lblGiaBan";
+            lblGiaBan.Size = new Size(60, 20);
+            lblGiaBan.TabIndex = 19;
+            lblGiaBan.Text = "Giá bán";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1545, 751);
+            Controls.Add(txtGiaBan);
+            Controls.Add(lblGiaBan);
             Controls.Add(groupBox1);
             Controls.Add(pictureBox1);
             Controls.Add(buttonXoa);
@@ -316,5 +337,7 @@
         private Label label6;
         private Label label7;
         private ComboBox comboBoxLSP;
+        private TextBox txtGiaBan;
+        private Label lblGiaBan;
     }
 }

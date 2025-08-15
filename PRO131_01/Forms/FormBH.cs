@@ -1,12 +1,8 @@
-﻿using PRO131_01.Models;
+﻿using PRO131_01.Data;
+using PRO131_01.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PRO131_01.Forms
@@ -14,7 +10,7 @@ namespace PRO131_01.Forms
     public partial class FormBH : Form
     {
         private List<SanPham> danhSachSP;
-        private List<SanPham> gioHang;
+        private List<(SanPham sanPham, int soLuong)> gioHang;
 
         public FormBH()
         {
@@ -23,56 +19,17 @@ namespace PRO131_01.Forms
 
         private void FormBH_Load(object sender, EventArgs e)
         {
-            // Khởi tạo danh sách giỏ hàng
-            gioHang = new List<SanPham>();
-
-            danhSachSP = new List<SanPham>
-            {
-                new SanPham
-{
-    MaSanPham = 1,
-            TenSanPham = "Nike Air Max",
-            MoTa = "",
-            GiaBan = 2500000,
-            SoLuongTonKho = 20,
-            HinhAnh = "",
-            MaLoaiSanPham = 1,
-            MaNhaCungCap = 1
-        },
-        new SanPham
-        {
-            MaSanPham = 2,
-            TenSanPham = "Adidas Ultraboost",
-            MoTa = "Giày chạy bộ êm ái",
-            GiaBan = 2700000,
-            SoLuongTonKho = 15,
-            HinhAnh = "/images/ultraboost.jpg",
-            MaLoaiSanPham = 3,
-            MaNhaCungCap = 2
-        },
-        new SanPham
-        {
-            MaSanPham = 3,
-            TenSanPham = "Nike ZoomX",
-            MoTa = "Giày thể thao tốc độ cao",
-            GiaBan = 2800000,
-            SoLuongTonKho = 10,
-            HinhAnh = "/images/zoomx.jpg",
-            MaLoaiSanPham = 2,
-            MaNhaCungCap = 1
-        },
-        new SanPham
-        {
-            MaSanPham = 4,
-            TenSanPham = "Adidas NMD R1",
-            MoTa = "Mẫu sneaker nổi bật",
-            GiaBan = 2400000,
-            SoLuongTonKho = 18,
-            HinhAnh = "/images/nmdr1.jpg",
-            MaLoaiSanPham = 5,
-            MaNhaCungCap = 2
+            gioHang = new List<(SanPham, int)>();
+            LoadSanPham();
+            HienThiGioHang();
         }
-            };
+
+        private void LoadSanPham()
+        {
+            using (var db = new CategoryDbContext())
+            {
+                danhSachSP = db.SanPhams.ToList(); // Đổi thành SanPhams (DbSet)
+            }
 
             dgvSanPham.DataSource = danhSachSP.Select(sp => new
             {
@@ -85,31 +42,36 @@ namespace PRO131_01.Forms
                 sp.MaLoaiSanPham,
                 sp.MaNhaCungCap
             }).ToList();
-            HienThiGioHang();
         }
-
-    
-
-        
 
         private void btnThemGio_Click(object sender, EventArgs e)
         {
             if (dgvSanPham.SelectedRows.Count > 0)
             {
-                // Lấy mã sản phẩm từ cột MaSanPham
                 int maSP = Convert.ToInt32(dgvSanPham.SelectedRows[0].Cells["MaSanPham"].Value);
-
-                // Tìm sản phẩm trong danhSachSP
                 var sp = danhSachSP.FirstOrDefault(x => x.MaSanPham == maSP);
 
                 if (sp != null)
                 {
                     if (int.TryParse(txtSoLuong.Text, out int soLuong) && soLuong > 0)
                     {
-                        for (int i = 0; i < soLuong; i++)
+                        if (soLuong > sp.SoLuongTonKho)
                         {
-                            gioHang.Add(sp);
+                            MessageBox.Show("Số lượng mua vượt quá tồn kho!");
+                            return;
                         }
+
+                        var item = gioHang.FirstOrDefault(g => g.sanPham.MaSanPham == sp.MaSanPham);
+                        if (item.sanPham != null)
+                        {
+                            gioHang.Remove(item);
+                            gioHang.Add((sp, item.soLuong + soLuong));
+                        }
+                        else
+                        {
+                            gioHang.Add((sp, soLuong));
+                        }
+
                         HienThiGioHang();
                     }
                     else
@@ -124,9 +86,13 @@ namespace PRO131_01.Forms
         {
             if (dgvGioHang.SelectedRows.Count > 0)
             {
-                int index = dgvGioHang.SelectedRows[0].Index;
-                gioHang.RemoveAt(index);
-                HienThiGioHang();
+                int maSP = Convert.ToInt32(dgvGioHang.SelectedRows[0].Cells["MaSanPham"].Value);
+                var item = gioHang.FirstOrDefault(g => g.sanPham.MaSanPham == maSP);
+                if (item.sanPham != null)
+                {
+                    gioHang.Remove(item);
+                    HienThiGioHang();
+                }
             }
         }
 
@@ -138,52 +104,52 @@ namespace PRO131_01.Forms
                 return;
             }
 
-            // Trừ số lượng tồn kho
-            foreach (var spTrongGio in gioHang)
+            using (var db = new CategoryDbContext())
             {
-                var spTrongDanhSach = danhSachSP.FirstOrDefault(sp => sp.MaSanPham == spTrongGio.MaSanPham);
-                if (spTrongDanhSach != null)
+                foreach (var item in gioHang)
                 {
-                    spTrongDanhSach.SoLuongTonKho -= 1; // mỗi lần 1 sản phẩm
+                    var spTrongDb = db.SanPhams.FirstOrDefault(sp => sp.MaSanPham == item.sanPham.MaSanPham);
+                    if (spTrongDb != null)
+                    {
+                        if (spTrongDb.SoLuongTonKho < item.soLuong)
+                        {
+                            MessageBox.Show($"Sản phẩm {spTrongDb.TenSanPham} không đủ tồn kho!");
+                            return;
+                        }
+                        spTrongDb.SoLuongTonKho -= item.soLuong;
+                    }
                 }
+
+                db.SaveChanges();
             }
 
-            decimal tongTien = gioHang.Sum(sp => sp.GiaBan ?? 0);
+            decimal tongTien = gioHang.Sum(sp => (sp.sanPham.GiaBan ?? 0) * sp.soLuong);
             MessageBox.Show($"Thanh toán thành công! Tổng tiền: {tongTien:N0} VNĐ");
 
             gioHang.Clear();
             HienThiGioHang();
-
-            // Cập nhật lại bảng sản phẩm
-            dgvSanPham.DataSource = danhSachSP.Select(sp => new
-            {
-                sp.MaSanPham,
-                sp.TenSanPham,
-                sp.MoTa,
-                sp.GiaBan,
-                sp.SoLuongTonKho,
-                sp.HinhAnh,
-                sp.MaLoaiSanPham,
-                sp.MaNhaCungCap
-            }).ToList();
+            LoadSanPham(); // Load lại SP sau khi trừ tồn kho
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
         private void HienThiGioHang()
         {
             int stt = 1;
-            dgvGioHang.DataSource = gioHang.Select(sp => new
+            dgvGioHang.DataSource = gioHang.Select(g => new
             {
                 STT = stt++,
-                sp.MaSanPham,
-                sp.TenSanPham,
-                Gia = string.Format("{0:N0} VNĐ", sp.GiaBan ?? 0) // format an toàn với null
+                g.sanPham.MaSanPham,
+                g.sanPham.TenSanPham,
+                SoLuong = g.soLuong,
+                Gia = $"{g.sanPham.GiaBan:N0} VNĐ",
+                ThanhTien = $"{(g.sanPham.GiaBan ?? 0) * g.soLuong:N0} VNĐ"
             }).ToList();
 
-            lblTongTien.Text = $"Tổng tiền: {gioHang.Sum(sp => sp.GiaBan ?? 0):N0} VNĐ";
+            lblTongTien.Text = $"Tổng tiền: {gioHang.Sum(sp => (sp.sanPham.GiaBan ?? 0) * sp.soLuong):N0} VNĐ";
         }
     }
 }
