@@ -45,8 +45,6 @@
             buttonXoa = new Button();
             pictureBox1 = new PictureBox();
             groupBox1 = new GroupBox();
-            comboBoxLSP = new ComboBox();
-            label7 = new Label();
             textBoxTimKiem = new TextBox();
             label6 = new Label();
             txtGiaBan = new TextBox();
@@ -213,8 +211,6 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(comboBoxLSP);
-            groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(textBoxTimKiem);
             groupBox1.Controls.Add(label6);
             groupBox1.Location = new Point(1044, 258);
@@ -223,25 +219,6 @@
             groupBox1.TabIndex = 18;
             groupBox1.TabStop = false;
             groupBox1.Text = "Bộ lọc ";
-            // 
-            // comboBoxLSP
-            // 
-            comboBoxLSP.FormattingEnabled = true;
-            comboBoxLSP.Location = new Point(155, 71);
-            comboBoxLSP.Name = "comboBoxLSP";
-            comboBoxLSP.Size = new Size(236, 28);
-            comboBoxLSP.TabIndex = 13;
-            comboBoxLSP.SelectedIndexChanged += comboBoxLSP_SelectedIndexChanged;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(50, 71);
-            label7.Name = "label7";
-            label7.Size = new Size(105, 20);
-            label7.TabIndex = 5;
-            label7.Text = "Loại sản phẩm";
-            label7.Click += label7_Click;
             // 
             // textBoxTimKiem
             // 

@@ -63,7 +63,7 @@
             dgvSanPham.Location = new Point(0, 477);
             dgvSanPham.Name = "dgvSanPham";
             dgvSanPham.RowHeadersWidth = 51;
-            dgvSanPham.Size = new Size(1436, 241);
+            dgvSanPham.Size = new Size(1559, 288);
             dgvSanPham.TabIndex = 1;
             // 
             // dgvGioHang

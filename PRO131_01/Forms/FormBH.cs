@@ -28,7 +28,7 @@ namespace PRO131_01.Forms
         {
             using (var db = new CategoryDbContext())
             {
-                danhSachSP = db.SanPhams.ToList(); // Đổi thành SanPhams (DbSet)
+                danhSachSP = db.SanPhams.ToList(); 
             }
 
             dgvSanPham.DataSource = danhSachSP.Select(sp => new
@@ -128,7 +128,7 @@ namespace PRO131_01.Forms
 
             gioHang.Clear();
             HienThiGioHang();
-            LoadSanPham(); // Load lại SP sau khi trừ tồn kho
+            LoadSanPham(); 
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

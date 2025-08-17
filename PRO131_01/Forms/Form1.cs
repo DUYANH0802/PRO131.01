@@ -33,9 +33,9 @@ namespace PRO131_01
             comboBoxLoaiSp.DataSource = _sanPhamservice.GetProductsTypes();
             comboBoxLoaiSp.DisplayMember = nameof(SanPhamChiTiet.TenSanPhamChiTiet);
             comboBoxLoaiSp.ValueMember = nameof(SanPhamChiTiet.MaSanPhamChiTiet);
-            comboBoxLSP.DataSource = _sanPhamservice.GetProductsTypes();
+            /*comboBoxLSP.DataSource = _sanPhamservice.GetProductsTypes();
             comboBoxLSP.DisplayMember = nameof(SanPhamChiTiet.TenSanPhamChiTiet);
-            comboBoxLSP.ValueMember = nameof(SanPhamChiTiet.MaSanPhamChiTiet);
+            comboBoxLSP.ValueMember = nameof(SanPhamChiTiet.MaSanPhamChiTiet);*/
 
 
         }
@@ -90,7 +90,7 @@ namespace PRO131_01
                 textBoxTen.Text = sanPham.TenSanPham ?? string.Empty;
                 numericUpDownSoLuong.Value = (decimal)(sanPham.SoLuongTonKho ?? 0);
 
-                // Loại sản phẩm
+               
                 if (comboBoxLoaiSp.DataSource != null && sanPham.MaLoaiSanPham != null)
                 {
                     comboBoxLoaiSp.SelectedValue = sanPham.MaLoaiSanPham;
@@ -100,10 +100,10 @@ namespace PRO131_01
                     comboBoxLoaiSp.SelectedIndex = -1;
                 }
 
-                // Hiển thị giá bán
+               
                 txtGiaBan.Text = sanPham.GiaBan?.ToString() ?? "0";
 
-                // Hiển thị ảnh
+             
                 string path = @"../../../Images/NoImage.png";
                 if (!string.IsNullOrWhiteSpace(sanPham.HinhAnh) && File.Exists(sanPham.HinhAnh))
                 {
@@ -125,26 +125,26 @@ namespace PRO131_01
                 {
                     string sourcePath = openFileDialog.FileName;
 
-                    // Lấy đường dẫn thư mục "images" trong thư mục dự án
+                  
                     string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
                     string imagesFolder = Path.Combine(projectDirectory, "Images");
 
-                    // Tạo thư mục nếu chưa có
+                  
                     if (!Directory.Exists(imagesFolder))
                     {
                         Directory.CreateDirectory(imagesFolder);
                     }
 
-                    // Tạo tên file đích (giữ nguyên tên gốc)
+                 
                     string fileName = Path.GetFileName(sourcePath);
                     string destinationPath = Path.Combine(imagesFolder, fileName);
 
-                    // Copy ảnh vào thư mục images (ghi đè nếu đã tồn tại)
+                   
                     File.Copy(sourcePath, destinationPath, true);
 
                     currentImagePath = destinationPath;
 
-                    // Hiển thị ảnh từ thư mục images
+                  
                     pictureBox1.Image = Image.FromFile(destinationPath);
                     pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
                     MessageBox.Show(currentImagePath);
@@ -163,7 +163,7 @@ namespace PRO131_01
 
             sanPham.SoLuongTonKho = (int)numericUpDownSoLuong.Value;
             sanPham.HinhAnh = currentImagePath;
-            // Gán giá bán
+          
             if (decimal.TryParse(txtGiaBan.Text, out decimal gia))
                 sanPham.GiaBan = gia;
             else
@@ -243,7 +243,7 @@ namespace PRO131_01
 
         private void txtGiaBan_TextChanged(object sender, EventArgs e)
         {
-            // Có thể kiểm tra nhập số
+           
             if (!decimal.TryParse(txtGiaBan.Text, out _))
             {
                 txtGiaBan.Text = "0";

@@ -169,6 +169,7 @@
             btnLammoi.TabIndex = 15;
             btnLammoi.Text = "Làm mới";
             btnLammoi.UseVisualStyleBackColor = true;
+            btnLammoi.Click += btnLammoi_Click;
             // 
             // btnXoa
             // 

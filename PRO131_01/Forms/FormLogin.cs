@@ -13,7 +13,7 @@ namespace PRO131_01.Forms
 {
     public partial class FormLogin : Form
     {
-        // Chuỗi kết nối (chỉnh lại tên server + database của bạn)
+        
         string connectionString = @"Server=NGUYENDUYANH\SQLEXPRESS;Database=PRO131_01;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public FormLogin()
@@ -45,7 +45,7 @@ namespace PRO131_01.Forms
                 {
                     MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Mở form chính
+                
                     FormMain frm = new FormMain();
                     frm.Show();
                     this.Hide();

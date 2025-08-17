@@ -33,7 +33,6 @@
             AntdUI.MenuItem menuItem3 = new AntdUI.MenuItem();
             AntdUI.MenuItem menuItem4 = new AntdUI.MenuItem();
             AntdUI.MenuItem menuItem5 = new AntdUI.MenuItem();
-            AntdUI.MenuItem menuItem6 = new AntdUI.MenuItem();
             menu1 = new AntdUI.Menu();
             panel1 = new Panel();
             SuspendLayout();
@@ -54,11 +53,8 @@
             menuItem2.Sub.Add(menuItem4);
             menuItem2.Sub.Add(menuItem5);
             menuItem2.Text = "Quản lý";
-            menuItem6.ID = "tk";
-            menuItem6.Text = "Tài khoản";
             menu1.Items.Add(menuItem1);
             menu1.Items.Add(menuItem2);
-            menu1.Items.Add(menuItem6);
             menu1.Location = new Point(12, 76);
             menu1.Name = "menu1";
             menu1.Size = new Size(200, 524);

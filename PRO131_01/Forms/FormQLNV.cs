@@ -19,37 +19,61 @@ namespace PRO131_01.Forms
     {
         GenericRepository<NhanVien> _repository;
         private NhanVien _selectedNhanVien = null;
+
         public FormQLNV()
         {
             InitializeComponent();
             _repository = new GenericRepository<NhanVien>();
+            this.Load += FormQLNV_Load;
             LoadTable();
+        }
+        private void FillForm(NhanVien nv)
+        {
+            if (nv == null) return;
+
+            txtMaNV.Text = nv.MaNhanVien.ToString();
+            txtHoten.Text = nv.HoTen;
+            txtSDT.Text = nv.Sdt;
+            txtEmail.Text = nv.Email;
+            txtDiachi.Text = nv.DiaChi;
+            cbGioitinh.SelectedItem = nv.GioiTinh; 
         }
         private void LoadTable()
         {
-            dgvQLNV.DataSource = _repository.GetAll();
-            dgvQLNV.AutoGenerateColumns = false;
-            dgvQLNV.Columns.Clear();
+            var data = _repository.GetAll().ToList();
 
-            var columns = new (string Name, string Header)[]
-            {
-                (nameof(NhanVien.MaNhanVien), "Mã NV"),
-                (nameof(NhanVien.HoTen), "Họ tên"),
-                (nameof(NhanVien.Sdt), "SĐT"),
-                (nameof(NhanVien.Email), "Email"),
-                (nameof(NhanVien.DiaChi), "Địa chỉ"),
-                (nameof(NhanVien.GioiTinh), "Giới tính")
-            };
+            dgvQLNV.Columns.Clear();
+            dgvQLNV.AutoGenerateColumns = false;
+
+            var columns = new (string Name, string Header)[] {
+        (nameof(NhanVien.MaNhanVien), "Mã NV"),
+        (nameof(NhanVien.HoTen), "Họ tên"),
+        (nameof(NhanVien.Sdt), "SĐT"),
+        (nameof(NhanVien.Email), "Email"),
+        (nameof(NhanVien.DiaChi), "Địa chỉ"),
+        (nameof(NhanVien.GioiTinh), "Giới tính")
+    };
 
             foreach (var col in columns)
             {
-                dgvQLNV.Columns.Add(col.Name, col.Header);
+                dgvQLNV.Columns.Add(new DataGridViewTextBoxColumn()
+                {
+                    DataPropertyName = col.Name,
+                    HeaderText = col.Header,
+                    Name = col.Name,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                });
             }
+
+            dgvQLNV.DataSource = data;
 
             dgvQLNV.CellClick += (s, e) =>
             {
                 if (e.RowIndex >= 0)
+                {
                     _selectedNhanVien = dgvQLNV.Rows[e.RowIndex].DataBoundItem as NhanVien;
+                    FillForm(_selectedNhanVien);
+                }
             };
         }
 
@@ -118,6 +142,12 @@ namespace PRO131_01.Forms
             {
                 var nhanVien = (NhanVien)dgvQLNV.CurrentRow.DataBoundItem;
 
+                nhanVien.HoTen = txtHoten.Text.Trim();
+                nhanVien.Sdt = txtSDT.Text.Trim();
+                nhanVien.Email = txtEmail.Text.Trim();
+                nhanVien.DiaChi = txtDiachi.Text.Trim();
+                nhanVien.GioiTinh = cbGioitinh.SelectedItem?.ToString();
+
                 if (string.IsNullOrWhiteSpace(nhanVien.HoTen))
                 {
                     MessageBox.Show("Họ tên không được để trống", "Lỗi",
@@ -126,7 +156,6 @@ namespace PRO131_01.Forms
                 }
 
                 _repository.Update(nhanVien);
-
                 LoadTable();
 
                 MessageBox.Show("Cập nhật nhân viên thành công!", "Thành công",
@@ -162,7 +191,7 @@ namespace PRO131_01.Forms
                 try
                 {
                     _repository.Remove(nhanVien);
-                    
+
                     LoadTable();
 
                     MessageBox.Show("Xóa nhân viên thành công!",
@@ -188,6 +217,17 @@ namespace PRO131_01.Forms
             txtDiachi.Text = "";
             cbGioitinh.SelectedIndex = -1;
             txtMaNV.Focus();
+        }
+        private void FormQLNV_Load(object sender, EventArgs e)
+        {
+            cbGioitinh.Items.Clear();
+            cbGioitinh.Items.Add("Nam");
+            cbGioitinh.Items.Add("Nữ");
+        }
+
+        private void btnLammoi_Click(object sender, EventArgs e)
+        {
+            ClearInputs();
         }
     }
 }

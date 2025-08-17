@@ -49,7 +49,7 @@ namespace PRO131_01.Forms
             {
                 conn.Open();
 
-                // Kiểm tra trùng tên đăng nhập
+            
                 string checkSql = "SELECT COUNT(*) FROM TaiKhoan WHERE TenDangNhap=@u";
                 SqlCommand checkCmd = new SqlCommand(checkSql, conn);
                 checkCmd.Parameters.AddWithValue("@u", username);
@@ -61,7 +61,7 @@ namespace PRO131_01.Forms
                     return;
                 }
 
-                // Thêm mới
+              
                 string insertSql = "INSERT INTO TaiKhoan (TenDangNhap, MatKhau, MaQuyen) VALUES (@u, @p, @r)";
                 SqlCommand insertCmd = new SqlCommand(insertSql, conn);
                 insertCmd.Parameters.AddWithValue("@u", username);
