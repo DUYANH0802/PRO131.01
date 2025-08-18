@@ -59,6 +59,7 @@
             // 
             // dgvSanPham
             // 
+            dgvSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSanPham.Location = new Point(0, 477);
             dgvSanPham.Name = "dgvSanPham";

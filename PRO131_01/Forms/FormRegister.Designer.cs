@@ -112,6 +112,7 @@
             chkShowPassReg.TabIndex = 7;
             chkShowPassReg.Text = "Hiện mật khẩu";
             chkShowPassReg.UseVisualStyleBackColor = true;
+            chkShowPassReg.CheckedChanged += chkShowPassReg_CheckedChanged;
             // 
             // lblTitle
             // 

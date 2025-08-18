@@ -49,7 +49,7 @@ namespace PRO131_01.Forms
             {
                 conn.Open();
 
-            
+
                 string checkSql = "SELECT COUNT(*) FROM TaiKhoan WHERE TenDangNhap=@u";
                 SqlCommand checkCmd = new SqlCommand(checkSql, conn);
                 checkCmd.Parameters.AddWithValue("@u", username);
@@ -61,7 +61,7 @@ namespace PRO131_01.Forms
                     return;
                 }
 
-              
+
                 string insertSql = "INSERT INTO TaiKhoan (TenDangNhap, MatKhau, MaQuyen) VALUES (@u, @p, @r)";
                 SqlCommand insertCmd = new SqlCommand(insertSql, conn);
                 insertCmd.Parameters.AddWithValue("@u", username);
@@ -79,9 +79,6 @@ namespace PRO131_01.Forms
             txtNewPass.UseSystemPasswordChar = !chkShowPassReg.Checked;
         }
 
-        private void btnRegister_Click_1(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

@@ -17,25 +17,29 @@ namespace PRO131_01
         }
         private void LoadTable()
         {
-            dataGridView1.DataSource = _sanPhamservice
-                .GetProductsWithInclude(nameof(SanPham.MaLoaiSanPhamNavigation))
-                .Select(sp => new
-                {
-                    sp.MaSanPham,
-                    sp.TenSanPham,
-                    sp.SoLuongTonKho,
-                    sp.GiaBan,
-                    sp.MoTa,
-                    sp.HinhAnh
-                })
-                .ToList();
             dataGridView1.DataSource = _sanPhamservice.GetProductsWithInclude(nameof(SanPham.MaLoaiSanPhamNavigation));
-            comboBoxLoaiSp.DataSource = _sanPhamservice.GetProductsTypes();
-            comboBoxLoaiSp.DisplayMember = nameof(SanPhamChiTiet.TenSanPhamChiTiet);
-            comboBoxLoaiSp.ValueMember = nameof(SanPhamChiTiet.MaSanPhamChiTiet);
-            /*comboBoxLSP.DataSource = _sanPhamservice.GetProductsTypes();
-            comboBoxLSP.DisplayMember = nameof(SanPhamChiTiet.TenSanPhamChiTiet);
-            comboBoxLSP.ValueMember = nameof(SanPhamChiTiet.MaSanPhamChiTiet);*/
+
+            
+            if (dataGridView1.Columns["MaSanPham"] != null)
+                dataGridView1.Columns["MaSanPham"].HeaderText = "Mã Sản Phẩm";
+
+            if (dataGridView1.Columns["TenSanPham"] != null)
+                dataGridView1.Columns["TenSanPham"].HeaderText = "Tên Sản Phẩm";
+
+            if (dataGridView1.Columns["SoLuongTonKho"] != null)
+                dataGridView1.Columns["SoLuongTonKho"].HeaderText = "Số Lượng Tồn Kho";
+
+            if (dataGridView1.Columns["GiaBan"] != null)
+                dataGridView1.Columns["GiaBan"].HeaderText = "Giá Bán";
+
+            if (dataGridView1.Columns["MoTa"] != null)
+                dataGridView1.Columns["MoTa"].HeaderText = "Mô Tả";
+
+            if (dataGridView1.Columns["HinhAnh"] != null)
+                dataGridView1.Columns["HinhAnh"].HeaderText = "Hình Ảnh";
+
+            if (dataGridView1.Columns["TenSanPhamChiTiet"] != null)
+                dataGridView1.Columns["TenSanPhamChiTiet"].HeaderText = "Tên sản phẩm chi tiết";
 
 
         }

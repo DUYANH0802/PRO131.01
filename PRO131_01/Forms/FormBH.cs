@@ -42,6 +42,14 @@ namespace PRO131_01.Forms
                 sp.MaLoaiSanPham,
                 sp.MaNhaCungCap
             }).ToList();
+            dgvSanPham.Columns["MaSanPham"].HeaderText = "Mã sản phẩm";
+            dgvSanPham.Columns["TenSanPham"].HeaderText = "Tên sản phẩm";
+            dgvSanPham.Columns["MoTa"].HeaderText = "Mô tả";
+            dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
+            dgvSanPham.Columns["SoLuongTonKho"].HeaderText = "Số lượng tồn";
+            dgvSanPham.Columns["HinhAnh"].HeaderText = "Hình ảnh";
+            dgvSanPham.Columns["MaLoaiSanPham"].HeaderText = "Loại sản phẩm";
+            dgvSanPham.Columns["MaNhaCungCap"].HeaderText = "Nhà cung cấp";
         }
 
         private void btnThemGio_Click(object sender, EventArgs e)
@@ -142,12 +150,19 @@ namespace PRO131_01.Forms
             dgvGioHang.DataSource = gioHang.Select(g => new
             {
                 STT = stt++,
-                g.sanPham.MaSanPham,
-                g.sanPham.TenSanPham,
+                MaSanPham = g.sanPham.MaSanPham,   
+                TenSanPham = g.sanPham.TenSanPham,
                 SoLuong = g.soLuong,
                 Gia = $"{g.sanPham.GiaBan:N0} VNĐ",
                 ThanhTien = $"{(g.sanPham.GiaBan ?? 0) * g.soLuong:N0} VNĐ"
             }).ToList();
+
+           
+            dgvGioHang.Columns["MaSanPham"].HeaderText = "Mã sản phẩm";
+            dgvGioHang.Columns["TenSanPham"].HeaderText = "Tên sản phẩm";
+            dgvGioHang.Columns["SoLuong"].HeaderText = "Số lượng";
+            dgvGioHang.Columns["Gia"].HeaderText = "Giá";
+            dgvGioHang.Columns["ThanhTien"].HeaderText = "Thành tiền";
 
             lblTongTien.Text = $"Tổng tiền: {gioHang.Sum(sp => (sp.sanPham.GiaBan ?? 0) * sp.soLuong):N0} VNĐ";
         }
