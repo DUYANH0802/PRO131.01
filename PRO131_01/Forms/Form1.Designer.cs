@@ -158,6 +158,7 @@
             comboBoxLoaiSp.Name = "comboBoxLoaiSp";
             comboBoxLoaiSp.Size = new Size(245, 28);
             comboBoxLoaiSp.TabIndex = 12;
+            comboBoxLoaiSp.SelectedIndexChanged += comboBoxLoaiSp_SelectedIndexChanged;
             // 
             // buttonThem
             // 

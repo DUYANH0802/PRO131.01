@@ -13,13 +13,14 @@ namespace PRO131_01
         {
             InitializeComponent();
             _sanPhamservice = new SanPhamServices();
+            LoadComboBoxLoaiSanPham();
             LoadTable();
         }
         private void LoadTable()
         {
             dataGridView1.DataSource = _sanPhamservice.GetProductsWithInclude(nameof(SanPham.MaLoaiSanPhamNavigation));
 
-            
+
             if (dataGridView1.Columns["MaSanPham"] != null)
                 dataGridView1.Columns["MaSanPham"].HeaderText = "Mã Sản Phẩm";
 
@@ -47,7 +48,7 @@ namespace PRO131_01
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
 
         }
 
@@ -94,7 +95,7 @@ namespace PRO131_01
                 textBoxTen.Text = sanPham.TenSanPham ?? string.Empty;
                 numericUpDownSoLuong.Value = (decimal)(sanPham.SoLuongTonKho ?? 0);
 
-               
+
                 if (comboBoxLoaiSp.DataSource != null && sanPham.MaLoaiSanPham != null)
                 {
                     comboBoxLoaiSp.SelectedValue = sanPham.MaLoaiSanPham;
@@ -104,10 +105,10 @@ namespace PRO131_01
                     comboBoxLoaiSp.SelectedIndex = -1;
                 }
 
-               
+
                 txtGiaBan.Text = sanPham.GiaBan?.ToString() ?? "0";
 
-             
+
                 string path = @"../../../Images/NoImage.png";
                 if (!string.IsNullOrWhiteSpace(sanPham.HinhAnh) && File.Exists(sanPham.HinhAnh))
                 {
@@ -129,26 +130,26 @@ namespace PRO131_01
                 {
                     string sourcePath = openFileDialog.FileName;
 
-                  
+
                     string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
                     string imagesFolder = Path.Combine(projectDirectory, "Images");
 
-                  
+
                     if (!Directory.Exists(imagesFolder))
                     {
                         Directory.CreateDirectory(imagesFolder);
                     }
 
-                 
+
                     string fileName = Path.GetFileName(sourcePath);
                     string destinationPath = Path.Combine(imagesFolder, fileName);
 
-                   
+
                     File.Copy(sourcePath, destinationPath, true);
 
                     currentImagePath = destinationPath;
 
-                  
+
                     pictureBox1.Image = Image.FromFile(destinationPath);
                     pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
                     MessageBox.Show(currentImagePath);
@@ -161,17 +162,16 @@ namespace PRO131_01
             sanPham.MaSanPham = int.TryParse(textBoxMa.Text, out int ma) ? ma : 0;
             sanPham.TenSanPham = textBoxTen.Text;
             sanPham.MoTa = RichTextBoxMoTa.Text;
-            sanPham.SoLuongTonKho = numericUpDownSoLuong.Value != null
-    ? (int)numericUpDownSoLuong.Value
-    : (int?)null;
-
             sanPham.SoLuongTonKho = (int)numericUpDownSoLuong.Value;
             sanPham.HinhAnh = currentImagePath;
-          
+
             if (decimal.TryParse(txtGiaBan.Text, out decimal gia))
                 sanPham.GiaBan = gia;
             else
                 sanPham.GiaBan = null;
+
+            if (comboBoxLoaiSp.SelectedValue != null)
+                sanPham.MaLoaiSanPham = (int)comboBoxLoaiSp.SelectedValue;
         }
 
         private void buttonThem_Click(object sender, EventArgs e)
@@ -247,11 +247,26 @@ namespace PRO131_01
 
         private void txtGiaBan_TextChanged(object sender, EventArgs e)
         {
-           
+
             if (!decimal.TryParse(txtGiaBan.Text, out _))
             {
                 txtGiaBan.Text = "0";
             }
         }
+
+        private void comboBoxLoaiSp_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void LoadComboBoxLoaiSanPham()
+        {
+            var loaiSanPhams = _sanPhamservice.GetProductsTypes();
+
+            comboBoxLoaiSp.DataSource = loaiSanPhams;
+            comboBoxLoaiSp.DisplayMember = "TenSanPhamChiTiet"; 
+            comboBoxLoaiSp.ValueMember = "MaSanPhamChiTiet";   
+            comboBoxLoaiSp.SelectedIndex = -1; 
+        }
+
     }
 }

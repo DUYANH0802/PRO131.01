@@ -1,4 +1,5 @@
-﻿using PRO131_01.Models;
+﻿using PRO131_01.Data;
+using PRO131_01.Models;
 using PRO131_01.Repositories;
 using System;
 using System.Collections.Generic;
@@ -50,5 +51,6 @@ namespace PRO131_01.Services
         {
             return _repository.Loc(sp=>sp.MaLoaiSanPham==maLoaiSanPham);
         }
+      
     }
 }
