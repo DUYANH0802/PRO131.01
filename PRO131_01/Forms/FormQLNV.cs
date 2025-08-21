@@ -28,7 +28,6 @@ namespace PRO131_01.Forms
             this.Load += FormQLNV_Load;
             LoadTable();
             SetupValidationEvents();
-
         }
         private void FillForm(NhanVien nv)
         {
@@ -49,13 +48,13 @@ namespace PRO131_01.Forms
             dgvQLNV.AutoGenerateColumns = false;
 
             var columns = new (string Name, string Header)[] {
-        (nameof(NhanVien.MaNhanVien), "Mã NV"),
-        (nameof(NhanVien.HoTen), "Họ tên"),
-        (nameof(NhanVien.Sdt), "SĐT"),
-        (nameof(NhanVien.Email), "Email"),
-        (nameof(NhanVien.DiaChi), "Địa chỉ"),
-        (nameof(NhanVien.GioiTinh), "Giới tính")
-    };
+                (nameof(NhanVien.MaNhanVien), "Mã NV"),
+                (nameof(NhanVien.HoTen), "Họ tên"),
+                (nameof(NhanVien.Sdt), "SĐT"),
+                (nameof(NhanVien.Email), "Email"),
+                (nameof(NhanVien.DiaChi), "Địa chỉ"),
+                (nameof(NhanVien.GioiTinh), "Giới tính")
+            };
 
             foreach (var col in columns)
             {
@@ -79,17 +78,24 @@ namespace PRO131_01.Forms
                 }
             };
         }
+        // Hàm tự động tạo mã nhân viên mới
+        private int GenerateNewEmployeeId()
+        {
+            var allEmployees = _repository.GetAll();
+            if (allEmployees == null || !allEmployees.Any())
+            {
+                return 1; // Bắt đầu từ 1 nếu chưa có nhân viên nào
+            }
+
+            return allEmployees.Max(e => e.MaNhanVien) + 1;
+        }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
             try
             {
-                if (!int.TryParse(txtMaNV.Text.Trim(), out int maNV))
-                {
-                    MessageBox.Show("Mã nhân viên phải là số nguyên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtMaNV.Focus();
-                    return;
-                }
+                // Tự động tạo mã nhân viên
+                int maNV = GenerateNewEmployeeId();                
 
                 var NhanVienMoi = new NhanVien()
                 {
@@ -100,6 +106,11 @@ namespace PRO131_01.Forms
                     DiaChi = txtDiachi.Text.Trim(),
                     GioiTinh = cbGioitinh.SelectedItem?.ToString()
                 };
+                if (_repository.GetAll().Any(k => k.MaNhanVien == maNV))
+                {
+                    MessageBox.Show("Mã nhân viên đã tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 if (!IsValidPhoneNumber(txtSDT.Text.Trim()))
                 {

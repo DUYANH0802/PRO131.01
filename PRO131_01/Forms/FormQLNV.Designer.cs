@@ -111,6 +111,7 @@
             // 
             txtMaNV.Location = new Point(164, 27);
             txtMaNV.Name = "txtMaNV";
+            txtMaNV.ReadOnly = true;
             txtMaNV.Size = new Size(183, 27);
             txtMaNV.TabIndex = 7;
             // 
@@ -191,7 +192,9 @@
             dgvQLNV.Dock = DockStyle.Bottom;
             dgvQLNV.Location = new Point(3, 356);
             dgvQLNV.Name = "dgvQLNV";
+            dgvQLNV.ReadOnly = true;
             dgvQLNV.RowHeadersWidth = 51;
+            dgvQLNV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvQLNV.Size = new Size(1132, 226);
             dgvQLNV.TabIndex = 18;
             // 

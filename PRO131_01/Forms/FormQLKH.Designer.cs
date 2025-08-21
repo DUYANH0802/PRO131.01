@@ -170,6 +170,7 @@
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(183, 27);
             txtEmail.TabIndex = 28;
+            txtEmail.Leave += txtEmail_Leave;
             // 
             // txtTenKH
             // 
@@ -184,6 +185,8 @@
             txtSDT.Name = "txtSDT";
             txtSDT.Size = new Size(183, 27);
             txtSDT.TabIndex = 27;
+            txtSDT.KeyPress += txtSDT_KeyPress;
+            txtSDT.Leave += txtSDT_Leave;
             // 
             // dgvQLKH
             // 
