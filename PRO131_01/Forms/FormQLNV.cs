@@ -1,4 +1,5 @@
-﻿using PRO131_01.Models;
+﻿using AntdUI;
+using PRO131_01.Models;
 using PRO131_01.Repositories;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AntdUI;
 
 
 namespace PRO131_01.Forms
@@ -26,6 +27,8 @@ namespace PRO131_01.Forms
             _repository = new GenericRepository<NhanVien>();
             this.Load += FormQLNV_Load;
             LoadTable();
+            SetupValidationEvents();
+
         }
         private void FillForm(NhanVien nv)
         {
@@ -36,7 +39,7 @@ namespace PRO131_01.Forms
             txtSDT.Text = nv.Sdt;
             txtEmail.Text = nv.Email;
             txtDiachi.Text = nv.DiaChi;
-            cbGioitinh.SelectedItem = nv.GioiTinh; 
+            cbGioitinh.SelectedItem = nv.GioiTinh;
         }
         private void LoadTable()
         {
@@ -98,6 +101,23 @@ namespace PRO131_01.Forms
                     GioiTinh = cbGioitinh.SelectedItem?.ToString()
                 };
 
+                if (!IsValidPhoneNumber(txtSDT.Text.Trim()))
+                {
+                    MessageBox.Show("Số điện thoại không hợp lệ! Phải có 10-11 số và bắt đầu bằng 0.", "Lỗi",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtSDT.Focus();
+                    return;
+                }
+
+                if (!IsValidEmail(txtEmail.Text.Trim()))
+                {
+                    MessageBox.Show("Email phải có định dạng @gmail.com!", "Lỗi",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtEmail.Focus();
+                    return;
+                }
+
+
                 if (maNV <= 0)
                 {
                     MessageBox.Show("Mã nhân viên phải lớn hơn 0!", "Lỗi",
@@ -154,7 +174,21 @@ namespace PRO131_01.Forms
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                if (!IsValidPhoneNumber(txtSDT.Text.Trim()))
+                {
+                    MessageBox.Show("Số điện thoại không hợp lệ! Phải có 10-11 số và bắt đầu bằng 0.", "Lỗi",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtSDT.Focus();
+                    return;
+                }
 
+                if (!IsValidEmail(txtEmail.Text.Trim()))
+                {
+                    MessageBox.Show("Email phải có định dạng @gmail.com!", "Lỗi",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtEmail.Focus();
+                    return;
+                }
                 _repository.Update(nhanVien);
                 LoadTable();
 
@@ -228,6 +262,71 @@ namespace PRO131_01.Forms
         private void btnLammoi_Click(object sender, EventArgs e)
         {
             ClearInputs();
+        }
+        private void SetupValidationEvents()
+        {
+            // Sự kiện validate số điện thoại (chỉ cho nhập số)
+            txtSDT.KeyPress += txtSDT_KeyPress;
+            txtSDT.Leave += txtSDT_Leave;
+
+            // Sự kiện validate email
+            txtEmail.Leave += txtEmail_Leave;
+        }
+
+        private void txtSDT_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Chỉ cho phép nhập số, phím backspace và control
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Chỉ được nhập số!", "Thông báo",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void txtSDT_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtSDT.Text) && !IsValidPhoneNumber(txtSDT.Text))
+            {
+                MessageBox.Show("Số điện thoại phải có 10-11 số và bắt đầu bằng 0!", "Lỗi",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtSDT.Focus();
+            }
+        }
+        private bool IsValidPhoneNumber(string phone)
+        {
+            // Kiểm tra số điện thoại Việt Nam (10-11 số, bắt đầu bằng 0)
+            return Regex.IsMatch(phone, @"^(0[3|5|7|8|9])+([0-9]{8,9})\b$");
+        }
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                // Kiểm tra định dạng email cơ bản
+                var addr = new System.Net.Mail.MailAddress(email);
+
+                // KIỂM TRA BẮT BUỘC PHẢI CÓ @gmail.com
+                bool isGmail = email.ToLower().EndsWith("@gmail.com");
+
+                return addr.Address == email && isGmail;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void txtEmail_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtEmail.Text) && !IsValidEmail(txtEmail.Text))
+            {
+                MessageBox.Show("Email phải có định dạng @gmail.com!", "Lỗi",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtEmail.Focus();
+            }
         }
     }
 }

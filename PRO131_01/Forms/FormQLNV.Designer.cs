@@ -136,6 +136,8 @@
             txtSDT.Name = "txtSDT";
             txtSDT.Size = new Size(183, 27);
             txtSDT.TabIndex = 10;
+            txtSDT.KeyPress += txtSDT_KeyPress;
+            txtSDT.Leave += txtSDT_Leave;
             // 
             // txtEmail
             // 
@@ -143,6 +145,7 @@
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(183, 27);
             txtEmail.TabIndex = 11;
+            txtEmail.Leave += txtEmail_Leave;
             // 
             // txtDiachi
             // 
