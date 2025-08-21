@@ -61,10 +61,11 @@
             // 
             dgvSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSanPham.Location = new Point(0, 477);
+            dgvSanPham.Dock = DockStyle.Bottom;
+            dgvSanPham.Location = new Point(0, 480);
             dgvSanPham.Name = "dgvSanPham";
             dgvSanPham.RowHeadersWidth = 51;
-            dgvSanPham.Size = new Size(1559, 288);
+            dgvSanPham.Size = new Size(1557, 288);
             dgvSanPham.TabIndex = 1;
             // 
             // dgvGioHang

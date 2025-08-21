@@ -60,6 +60,7 @@
             // 
             txtMaKH.Location = new Point(152, 8);
             txtMaKH.Name = "txtMaKH";
+            txtMaKH.ReadOnly = true;
             txtMaKH.Size = new Size(183, 27);
             txtMaKH.TabIndex = 24;
             // 
@@ -193,7 +194,9 @@
             dgvQLKH.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvQLKH.Location = new Point(6, 419);
             dgvQLKH.Name = "dgvQLKH";
+            dgvQLKH.ReadOnly = true;
             dgvQLKH.RowHeadersWidth = 51;
+            dgvQLKH.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvQLKH.Size = new Size(1062, 222);
             dgvQLKH.TabIndex = 34;
             // 

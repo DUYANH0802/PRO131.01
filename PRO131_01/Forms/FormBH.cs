@@ -28,28 +28,58 @@ namespace PRO131_01.Forms
         {
             using (var db = new CategoryDbContext())
             {
-                danhSachSP = db.SanPhams.ToList(); 
+                danhSachSP = db.SanPhams.ToList();
+                var dataForGrid = (from sp in db.SanPhams
+                                  join ncc in db.NhaCungCaps on sp.MaNhaCungCap equals ncc.MaNhaCungCap into nccGroup
+                                  from ncc in nccGroup.DefaultIfEmpty()
+                                  join spct in db.SanPhamChiTiets on sp.MaLoaiSanPham equals spct.MaSanPhamChiTiet into spctGroup
+                                  from spct in spctGroup.DefaultIfEmpty()
+                                  select new
+                                  {
+                                      sp.MaSanPham,
+                                      sp.TenSanPham,
+                                      sp.GiaBan,
+                                      sp.SoLuongTonKho,
+                                      sp.HinhAnh,
+                                      TenLoaiSanPham = spct != null ? spct.TenSanPhamChiTiet : "",
+                                      KichThuoc = spct != null ? spct.KichThuoc : "",
+                                      MauSac = spct != null ? spct.MauSac : "",
+                                      TenNhaCungCap = ncc != null ? ncc.TenNhaCungCap : "",                                      
+                                      sp.MoTa
+                                  }).ToList();
+                dgvSanPham.DataSource = dataForGrid;
             }
 
-            dgvSanPham.DataSource = danhSachSP.Select(sp => new
-            {
-                sp.MaSanPham,
-                sp.TenSanPham,
-                sp.MoTa,
-                sp.GiaBan,
-                sp.SoLuongTonKho,
-                sp.HinhAnh,
-                sp.MaLoaiSanPham,
-                sp.MaNhaCungCap
-            }).ToList();
-            dgvSanPham.Columns["MaSanPham"].HeaderText = "Mã sản phẩm";
+            //dgvSanPham.DataSource = danhSachSP.Select(sp => new
+            //{
+            //    sp.MaSanPham,
+            //    sp.TenSanPham,
+            //    sp.MoTa,
+            //    sp.GiaBan,
+            //    sp.SoLuongTonKho,
+            //    sp.HinhAnh,
+            //    sp.MaLoaiSanPham,
+            //    sp.MaNhaCungCap
+            //}).ToList();
+            //dgvSanPham.Columns["MaSanPham"].HeaderText = "Mã sản phẩm";
+            //dgvSanPham.Columns["TenSanPham"].HeaderText = "Tên sản phẩm";
+            //dgvSanPham.Columns["MoTa"].HeaderText = "Mô tả";
+            //dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
+            //dgvSanPham.Columns["SoLuongTonKho"].HeaderText = "Số lượng tồn";
+            //dgvSanPham.Columns["HinhAnh"].HeaderText = "Hình ảnh";
+            //dgvSanPham.Columns["MaLoaiSanPham"].HeaderText = "Loại sản phẩm";
+            //dgvSanPham.Columns["MaNhaCungCap"].HeaderText = "Nhà cung cấp";
+
+            dgvSanPham.Columns["MaSanPham"].HeaderText = "Mã SP";
             dgvSanPham.Columns["TenSanPham"].HeaderText = "Tên sản phẩm";
-            dgvSanPham.Columns["MoTa"].HeaderText = "Mô tả";
             dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
-            dgvSanPham.Columns["SoLuongTonKho"].HeaderText = "Số lượng tồn";
+            dgvSanPham.Columns["SoLuongTonKho"].HeaderText = "Tồn kho";
             dgvSanPham.Columns["HinhAnh"].HeaderText = "Hình ảnh";
-            dgvSanPham.Columns["MaLoaiSanPham"].HeaderText = "Loại sản phẩm";
-            dgvSanPham.Columns["MaNhaCungCap"].HeaderText = "Nhà cung cấp";
+            dgvSanPham.Columns["TenLoaiSanPham"].HeaderText = "Loại SP";
+            dgvSanPham.Columns["KichThuoc"].HeaderText = "Kích thước";
+            dgvSanPham.Columns["MauSac"].HeaderText = "Màu sắc";
+            dgvSanPham.Columns["TenNhaCungCap"].HeaderText = "Nhà cung cấp";
+            dgvSanPham.Columns["MoTa"].HeaderText = "Mô tả";
         }
 
         private void btnThemGio_Click(object sender, EventArgs e)
@@ -155,7 +185,6 @@ namespace PRO131_01.Forms
 
                 db.HoaDons.Add(hoaDon);
                 db.SaveChanges();
-
                
                 foreach (var item in gioHang)
                 {
@@ -183,7 +212,6 @@ namespace PRO131_01.Forms
                 }
 
                 db.SaveChanges();
-
                 
                 MessageBox.Show($"Thanh toán thành công và lưu hóa đơn!\nMã HD: {hoaDon.MaHoaDon}, Khách: {khach.TenKhachHang}, Tổng tiền: {tongTien:N0} VNĐ");
                 gioHang.Clear();
@@ -209,7 +237,6 @@ namespace PRO131_01.Forms
                 Gia = $"{g.sanPham.GiaBan:N0} VNĐ",
                 ThanhTien = $"{(g.sanPham.GiaBan ?? 0) * g.soLuong:N0} VNĐ"
             }).ToList();
-
            
             dgvGioHang.Columns["MaSanPham"].HeaderText = "Mã sản phẩm";
             dgvGioHang.Columns["TenSanPham"].HeaderText = "Tên sản phẩm";
