@@ -47,7 +47,7 @@
             // 
             // btnLamMoi
             // 
-            btnLamMoi.Location = new Point(-1, 406);
+            btnLamMoi.Location = new Point(808, 349);
             btnLamMoi.Name = "btnLamMoi";
             btnLamMoi.Size = new Size(94, 29);
             btnLamMoi.TabIndex = 1;
@@ -61,7 +61,7 @@
             dgvChiTietHD.Location = new Point(0, 0);
             dgvChiTietHD.Name = "dgvChiTietHD";
             dgvChiTietHD.RowHeadersWidth = 51;
-            dgvChiTietHD.Size = new Size(519, 378);
+            dgvChiTietHD.Size = new Size(760, 378);
             dgvChiTietHD.TabIndex = 2;
             // 
             // FormQLHD

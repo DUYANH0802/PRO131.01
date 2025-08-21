@@ -168,9 +168,9 @@
             // 
             // txtSDT
             // 
-            txtSDT.Location = new Point(564, 157);
+            txtSDT.Location = new Point(554, 157);
             txtSDT.Name = "txtSDT";
-            txtSDT.Size = new Size(240, 27);
+            txtSDT.Size = new Size(250, 27);
             txtSDT.TabIndex = 13;
             // 
             // lblSDT

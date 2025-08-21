@@ -141,7 +141,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(943, 549);
+            ClientSize = new Size(966, 566);
             Controls.Add(label1);
             Controls.Add(lblTitle);
             Controls.Add(chkShowPassReg);
