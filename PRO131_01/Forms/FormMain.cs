@@ -67,6 +67,11 @@ namespace PRO131_01.Forms
                         ChangeForm(new FormBH());
                         break;
                     }
+                case "hd":
+                    {
+                        ChangeForm(new FormQLHD());
+                        break;
+                    }
 
             }
         }

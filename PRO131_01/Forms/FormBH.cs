@@ -114,6 +114,49 @@ namespace PRO131_01.Forms
 
             using (var db = new CategoryDbContext())
             {
+                
+                string tenKH = txtTenKH.Text.Trim();
+                string sdt = txtSDT.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(tenKH) || string.IsNullOrWhiteSpace(sdt))
+                {
+                    MessageBox.Show("Vui lòng nhập đầy đủ tên và số điện thoại khách hàng!");
+                    return;
+                }
+
+                
+                var khach = db.KhachHangs.FirstOrDefault(k => k.SoDienThoai == sdt);
+                if (khach == null)
+                {
+                    int newMaKH = (db.KhachHangs.Any() ? db.KhachHangs.Max(k => k.MaKhachHang) : 0) + 1;
+                    khach = new KhachHang
+                    {
+                        MaKhachHang = newMaKH,
+                        TenKhachHang = tenKH,
+                        SoDienThoai = sdt
+                    };
+                    db.KhachHangs.Add(khach);
+                    db.SaveChanges();
+                }
+
+                
+                decimal tongTien = gioHang.Sum(sp => (sp.sanPham.GiaBan ?? 0) * sp.soLuong);
+                int newMaHD = (db.HoaDons.Any() ? db.HoaDons.Max(h => h.MaHoaDon) : 0) + 1;
+
+                var hoaDon = new HoaDon
+                {
+                    MaHoaDon = newMaHD,
+                    MaKhachHang = khach.MaKhachHang,
+                    MaNhanVien = 1, 
+                    NgayLap = DateOnly.FromDateTime(DateTime.Now),
+                    TongTien = tongTien,
+                    TrangThai = "Đã thanh toán"
+                };
+
+                db.HoaDons.Add(hoaDon);
+                db.SaveChanges();
+
+               
                 foreach (var item in gioHang)
                 {
                     var spTrongDb = db.SanPhams.FirstOrDefault(sp => sp.MaSanPham == item.sanPham.MaSanPham);
@@ -124,19 +167,29 @@ namespace PRO131_01.Forms
                             MessageBox.Show($"Sản phẩm {spTrongDb.TenSanPham} không đủ tồn kho!");
                             return;
                         }
+
                         spTrongDb.SoLuongTonKho -= item.soLuong;
+
+                        var cthd = new HoaDonChiTiet
+                        {
+                            MaHoaDon = hoaDon.MaHoaDon,
+                            MaSanPham = item.sanPham.MaSanPham,
+                            SoLuong = item.soLuong,
+                            DonGia = item.sanPham.GiaBan
+                        };
+
+                        db.HoaDonChiTiets.Add(cthd);
                     }
                 }
 
                 db.SaveChanges();
+
+                
+                MessageBox.Show($"Thanh toán thành công và lưu hóa đơn!\nMã HD: {hoaDon.MaHoaDon}, Khách: {khach.TenKhachHang}, Tổng tiền: {tongTien:N0} VNĐ");
+                gioHang.Clear();
+                HienThiGioHang();
+                LoadSanPham();
             }
-
-            decimal tongTien = gioHang.Sum(sp => (sp.sanPham.GiaBan ?? 0) * sp.soLuong);
-            MessageBox.Show($"Thanh toán thành công! Tổng tiền: {tongTien:N0} VNĐ");
-
-            gioHang.Clear();
-            HienThiGioHang();
-            LoadSanPham(); 
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

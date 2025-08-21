@@ -70,7 +70,7 @@
             dataGridView1.Size = new Size(1545, 228);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            // ❌ Bỏ CellContentClick
             // 
             // label1
             // 
@@ -80,7 +80,7 @@
             label1.Size = new Size(103, 20);
             label1.TabIndex = 1;
             label1.Text = "Mã Sản Phẩm ";
-            label1.Click += label1_Click;
+            // ❌ Bỏ label1.Click
             // 
             // textBoxMa
             // 
@@ -88,7 +88,7 @@
             textBoxMa.Name = "textBoxMa";
             textBoxMa.Size = new Size(174, 27);
             textBoxMa.TabIndex = 2;
-            textBoxMa.TextChanged += textBox1_TextChanged;
+            // ❌ Bỏ TextChanged
             // 
             // textBoxTen
             // 
@@ -123,7 +123,7 @@
             label4.Size = new Size(105, 20);
             label4.TabIndex = 7;
             label4.Text = "Loại sản phẩm";
-            label4.Click += label4_Click;
+            // ❌ Bỏ Click
             // 
             // label5
             // 
@@ -149,7 +149,7 @@
             numericUpDownSoLuong.Name = "numericUpDownSoLuong";
             numericUpDownSoLuong.Size = new Size(202, 27);
             numericUpDownSoLuong.TabIndex = 11;
-            numericUpDownSoLuong.ValueChanged += numericUpDown1_ValueChanged;
+            // ❌ Bỏ ValueChanged
             // 
             // comboBoxLoaiSp
             // 
@@ -227,8 +227,8 @@
             textBoxTimKiem.Name = "textBoxTimKiem";
             textBoxTimKiem.Size = new Size(236, 27);
             textBoxTimKiem.TabIndex = 4;
-            textBoxTimKiem.TextChanged += textBox1_TextChanged_1;
             textBoxTimKiem.KeyPress += textBoxTimKiem_KeyPress;
+            // ❌ Bỏ textBox1_TextChanged_1
             // 
             // label6
             // 
@@ -241,9 +241,9 @@
             // 
             // txtGiaBan
             // 
-            txtGiaBan.Location = new Point(631, 197);
+            txtGiaBan.Location = new Point(619, 197);
             txtGiaBan.Name = "txtGiaBan";
-            txtGiaBan.Size = new Size(167, 27);
+            txtGiaBan.Size = new Size(245, 27);
             txtGiaBan.TabIndex = 20;
             txtGiaBan.TextChanged += txtGiaBan_TextChanged;
             // 
@@ -282,7 +282,6 @@
             Controls.Add(dataGridView1);
             Name = "Form1";
             Text = "Form1";
-            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownSoLuong).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
