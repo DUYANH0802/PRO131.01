@@ -312,7 +312,7 @@
         private GroupBox groupBox1;
         private TextBox textBoxTimKiem;
         private Label label6;
-        private Label label7;
+        //private Label label7;
         private ComboBox comboBoxLSP;
         private TextBox txtGiaBan;
         private Label lblGiaBan;

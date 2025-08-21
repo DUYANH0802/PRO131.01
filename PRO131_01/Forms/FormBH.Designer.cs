@@ -59,21 +59,28 @@
             // 
             // dgvSanPham
             // 
+            dgvSanPham.AllowUserToAddRows = false;
             dgvSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSanPham.Dock = DockStyle.Bottom;
             dgvSanPham.Location = new Point(0, 480);
             dgvSanPham.Name = "dgvSanPham";
+            dgvSanPham.ReadOnly = true;
             dgvSanPham.RowHeadersWidth = 51;
+            dgvSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSanPham.Size = new Size(1557, 288);
             dgvSanPham.TabIndex = 1;
             // 
             // dgvGioHang
             // 
+            dgvGioHang.AllowUserToAddRows = false;
+            dgvGioHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvGioHang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvGioHang.Location = new Point(810, 9);
             dgvGioHang.Name = "dgvGioHang";
+            dgvGioHang.ReadOnly = true;
             dgvGioHang.RowHeadersWidth = 51;
+            dgvGioHang.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvGioHang.Size = new Size(749, 381);
             dgvGioHang.TabIndex = 0;
             // 
@@ -168,10 +175,12 @@
             // 
             // txtSDT
             // 
-            txtSDT.Location = new Point(564, 157);
+            txtSDT.Location = new Point(554, 157);
             txtSDT.Name = "txtSDT";
             txtSDT.Size = new Size(240, 27);
             txtSDT.TabIndex = 13;
+            txtSDT.TextChanged += txtSDT_TextChanged;
+            txtSDT.KeyPress += txtSDT_KeyPress;
             // 
             // lblSDT
             // 
@@ -204,6 +213,7 @@
             Controls.Add(lblTitle);
             Name = "FormBH";
             Text = "FormBH";
+            FormClosing += FormBH_FormClosing;
             Load += FormBH_Load;
             ((System.ComponentModel.ISupportInitialize)dgvSanPham).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvGioHang).EndInit();
