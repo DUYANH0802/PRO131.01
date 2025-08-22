@@ -88,5 +88,57 @@ namespace PRO131_01.Forms
             dgvChiTietHD.DataSource = null;
             _selectedHoaDon = null;
         }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (_selectedHoaDon == null)
+            {
+                MessageBox.Show("Vui lòng chọn hóa đơn cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"Bạn có chắc muốn xóa hóa đơn Mã = {_selectedHoaDon.MaHoaDon} không?",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm == DialogResult.Yes)
+            {
+                using (var db = new CategoryDbContext())
+                {
+                    try
+                    {
+                        // Lấy lại hóa đơn từ DbContext
+                        var hoaDon = db.HoaDons.FirstOrDefault(h => h.MaHoaDon == _selectedHoaDon.MaHoaDon);
+                        if (hoaDon != null)
+                        {
+                            // Xóa chi tiết hóa đơn trước
+                            var chiTiets = db.HoaDonChiTiets.Where(ct => ct.MaHoaDon == hoaDon.MaHoaDon).ToList();
+                            if (chiTiets.Any())
+                            {
+                                db.HoaDonChiTiets.RemoveRange(chiTiets);
+                            }
+
+                            // Xóa hóa đơn
+                            db.HoaDons.Remove(hoaDon);
+
+                            db.SaveChanges();
+
+                            MessageBox.Show("Xóa hóa đơn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            // Refresh lại danh sách
+                            LoadHoaDon();
+                            dgvChiTietHD.DataSource = null;
+                            _selectedHoaDon = null;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi khi xóa hóa đơn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
     }
 }

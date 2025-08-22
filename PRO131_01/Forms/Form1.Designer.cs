@@ -49,6 +49,8 @@
             label6 = new Label();
             txtGiaBan = new TextBox();
             lblGiaBan = new Label();
+            label7 = new Label();
+            cbxMaNhaCungCap = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownSoLuong).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -70,7 +72,6 @@
             dataGridView1.Size = new Size(1545, 228);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
-            // ❌ Bỏ CellContentClick
             // 
             // label1
             // 
@@ -80,7 +81,6 @@
             label1.Size = new Size(103, 20);
             label1.TabIndex = 1;
             label1.Text = "Mã Sản Phẩm ";
-            // ❌ Bỏ label1.Click
             // 
             // textBoxMa
             // 
@@ -88,7 +88,6 @@
             textBoxMa.Name = "textBoxMa";
             textBoxMa.Size = new Size(174, 27);
             textBoxMa.TabIndex = 2;
-            // ❌ Bỏ TextChanged
             // 
             // textBoxTen
             // 
@@ -123,7 +122,6 @@
             label4.Size = new Size(105, 20);
             label4.TabIndex = 7;
             label4.Text = "Loại sản phẩm";
-            // ❌ Bỏ Click
             // 
             // label5
             // 
@@ -149,7 +147,6 @@
             numericUpDownSoLuong.Name = "numericUpDownSoLuong";
             numericUpDownSoLuong.Size = new Size(202, 27);
             numericUpDownSoLuong.TabIndex = 11;
-            // ❌ Bỏ ValueChanged
             // 
             // comboBoxLoaiSp
             // 
@@ -228,7 +225,6 @@
             textBoxTimKiem.Size = new Size(236, 27);
             textBoxTimKiem.TabIndex = 4;
             textBoxTimKiem.KeyPress += textBoxTimKiem_KeyPress;
-            // ❌ Bỏ textBox1_TextChanged_1
             // 
             // label6
             // 
@@ -256,11 +252,31 @@
             lblGiaBan.TabIndex = 19;
             lblGiaBan.Text = "Giá bán";
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(491, 258);
+            label7.Name = "label7";
+            label7.Size = new Size(122, 20);
+            label7.TabIndex = 21;
+            label7.Text = "Mã nhà cung cấp";
+            // 
+            // cbxMaNhaCungCap
+            // 
+            cbxMaNhaCungCap.FormattingEnabled = true;
+            cbxMaNhaCungCap.Location = new Point(619, 258);
+            cbxMaNhaCungCap.Name = "cbxMaNhaCungCap";
+            cbxMaNhaCungCap.Size = new Size(245, 28);
+            cbxMaNhaCungCap.TabIndex = 22;
+            cbxMaNhaCungCap.SelectedIndexChanged += cbxMaNhaCungCap_SelectedIndexChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1545, 751);
+            Controls.Add(cbxMaNhaCungCap);
+            Controls.Add(label7);
             Controls.Add(txtGiaBan);
             Controls.Add(lblGiaBan);
             Controls.Add(groupBox1);
@@ -312,9 +328,11 @@
         private GroupBox groupBox1;
         private TextBox textBoxTimKiem;
         private Label label6;
-        private Label label7;
+        //private Label label7;
         private ComboBox comboBoxLSP;
         private TextBox txtGiaBan;
         private Label lblGiaBan;
+        private Label label7;
+        private ComboBox cbxMaNhaCungCap;
     }
 }

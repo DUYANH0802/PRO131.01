@@ -31,6 +31,7 @@
             dgvHoaDon = new DataGridView();
             btnLamMoi = new Button();
             dgvChiTietHD = new DataGridView();
+            btnXoa = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvHoaDon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvChiTietHD).BeginInit();
             SuspendLayout();
@@ -64,11 +65,22 @@
             dgvChiTietHD.Size = new Size(760, 378);
             dgvChiTietHD.TabIndex = 2;
             // 
+            // btnXoa
+            // 
+            btnXoa.Location = new Point(808, 286);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new Size(94, 29);
+            btnXoa.TabIndex = 3;
+            btnXoa.Text = "Xóa";
+            btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
+            // 
             // FormQLHD
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1378, 773);
+            Controls.Add(btnXoa);
             Controls.Add(dgvChiTietHD);
             Controls.Add(btnLamMoi);
             Controls.Add(dgvHoaDon);
@@ -85,5 +97,6 @@
         private DataGridView dgvHoaDon;
         private Button btnLamMoi;
         private DataGridView dgvChiTietHD;
+        private Button btnXoa;
     }
 }

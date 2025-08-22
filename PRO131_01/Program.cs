@@ -12,7 +12,10 @@ namespace PRO131_01
         static void Main()
         {
             ApplicationConfiguration.Initialize();
+
             Application.Run(new FormLogin()); 
+           
+
         }
     }
 }

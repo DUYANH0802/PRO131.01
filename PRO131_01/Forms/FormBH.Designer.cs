@@ -43,6 +43,10 @@
             lblTenKH = new Label();
             txtSDT = new TextBox();
             lblSDT = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            txtEmail = new TextBox();
+            txtDiaChi = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvSanPham).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvGioHang).BeginInit();
             SuspendLayout();
@@ -59,21 +63,28 @@
             // 
             // dgvSanPham
             // 
+            dgvSanPham.AllowUserToAddRows = false;
             dgvSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSanPham.Dock = DockStyle.Bottom;
             dgvSanPham.Location = new Point(0, 480);
             dgvSanPham.Name = "dgvSanPham";
+            dgvSanPham.ReadOnly = true;
             dgvSanPham.RowHeadersWidth = 51;
+            dgvSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSanPham.Size = new Size(1557, 288);
             dgvSanPham.TabIndex = 1;
             // 
             // dgvGioHang
             // 
+            dgvGioHang.AllowUserToAddRows = false;
+            dgvGioHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvGioHang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvGioHang.Location = new Point(810, 9);
             dgvGioHang.Name = "dgvGioHang";
+            dgvGioHang.ReadOnly = true;
             dgvGioHang.RowHeadersWidth = 51;
+            dgvGioHang.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvGioHang.Size = new Size(749, 381);
             dgvGioHang.TabIndex = 0;
             // 
@@ -145,7 +156,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(586, 187);
+            label1.Location = new Point(586, 174);
             label1.Name = "label1";
             label1.Size = new Size(0, 20);
             label1.TabIndex = 9;
@@ -168,25 +179,63 @@
             // 
             // txtSDT
             // 
-            txtSDT.Location = new Point(554, 157);
+            txtSDT.Location = new Point(554, 144);
             txtSDT.Name = "txtSDT";
-            txtSDT.Size = new Size(250, 27);
+            txtSDT.Size = new Size(240, 27);
             txtSDT.TabIndex = 13;
+            txtSDT.TextChanged += txtSDT_TextChanged;
+            txtSDT.KeyPress += txtSDT_KeyPress;
             // 
             // lblSDT
             // 
             lblSDT.AutoSize = true;
-            lblSDT.Location = new Point(489, 157);
+            lblSDT.Location = new Point(489, 144);
             lblSDT.Name = "lblSDT";
             lblSDT.Size = new Size(36, 20);
             lblSDT.TabIndex = 12;
             lblSDT.Text = "SĐT";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(489, 210);
+            label2.Name = "label2";
+            label2.Size = new Size(46, 20);
+            label2.TabIndex = 14;
+            label2.Text = "Email";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(489, 269);
+            label3.Name = "label3";
+            label3.Size = new Size(59, 20);
+            label3.TabIndex = 15;
+            label3.Text = "Địa chỉ ";
+            // 
+            // txtEmail
+            // 
+            txtEmail.Location = new Point(554, 210);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(240, 27);
+            txtEmail.TabIndex = 16;
+            // 
+            // txtDiaChi
+            // 
+            txtDiaChi.Location = new Point(554, 269);
+            txtDiaChi.Name = "txtDiaChi";
+            txtDiaChi.Size = new Size(240, 27);
+            txtDiaChi.TabIndex = 17;
             // 
             // FormBH
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1557, 768);
+            Controls.Add(txtDiaChi);
+            Controls.Add(txtEmail);
+            Controls.Add(label3);
+            Controls.Add(label2);
             Controls.Add(txtSDT);
             Controls.Add(lblSDT);
             Controls.Add(txtTenKH);
@@ -204,6 +253,7 @@
             Controls.Add(lblTitle);
             Name = "FormBH";
             Text = "FormBH";
+            FormClosing += FormBH_FormClosing;
             Load += FormBH_Load;
             ((System.ComponentModel.ISupportInitialize)dgvSanPham).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvGioHang).EndInit();
@@ -228,5 +278,9 @@
         private Label lblTenKH;
         private TextBox txtSDT;
         private Label lblSDT;
+        private Label label2;
+        private Label label3;
+        private TextBox txtEmail;
+        private TextBox txtDiaChi;
     }
 }

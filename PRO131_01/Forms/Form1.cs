@@ -1,9 +1,10 @@
-﻿using PRO131_01.Extentions;
+﻿using PRO131_01.Data;
+using PRO131_01.Extentions;
 using PRO131_01.Models;
 using PRO131_01.Services;
-using System;                
-using System.IO;              
-using System.Linq;             
+using System;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PRO131_01
@@ -13,11 +14,15 @@ namespace PRO131_01
         SanPhamServices _sanPhamservice;
 
         private string currentImagePath = "";
+        
+        private bool _loadingNCC = false;
+
         public Form1()
         {
             InitializeComponent();
             _sanPhamservice = new SanPhamServices();
             LoadComboBoxLoaiSanPham();
+            LoadNhaCungCap();     
             LoadTable();
         }
 
@@ -43,11 +48,15 @@ namespace PRO131_01
             if (dataGridView1.Columns["HinhAnh"] != null)
                 dataGridView1.Columns["HinhAnh"].HeaderText = "Hình Ảnh";
 
+            if (dataGridView1.Columns["MaLoaiSanPham"] != null)
+                dataGridView1.Columns["MaLoaiSanPham"].HeaderText = "Mã loại sản phẩm";
+
+            if (dataGridView1.Columns["MaNhaCungCap"] != null)
+                dataGridView1.Columns["MaNhaCungCap"].HeaderText = "Mã nhà cung cấp";
+
             if (dataGridView1.Columns["TenSanPhamChiTiet"] != null)
                 dataGridView1.Columns["TenSanPhamChiTiet"].HeaderText = "Tên sản phẩm chi tiết";
         }
-
-        
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -66,6 +75,12 @@ namespace PRO131_01
                     comboBoxLoaiSp.SelectedIndex = -1;
                 }
 
+             
+                if (cbxMaNhaCungCap.DataSource != null && sanPham.MaNhaCungCap != null)
+                    cbxMaNhaCungCap.SelectedValue = sanPham.MaNhaCungCap.Value;
+                else
+                    cbxMaNhaCungCap.SelectedIndex = -1;
+
                 txtGiaBan.Text = sanPham.GiaBan?.ToString() ?? "0";
 
                 string path = @"../../../Images/NoImage.png";
@@ -76,9 +91,7 @@ namespace PRO131_01
                 pictureBox1.Image = Image.FromFile(path);
                 pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
 
-               
                 currentImagePath = File.Exists(path) ? path : "";
-                
                 RichTextBoxMoTa.Text = sanPham.MoTa ?? string.Empty;
             }
         }
@@ -111,13 +124,11 @@ namespace PRO131_01
 
                     pictureBox1.Image = Image.FromFile(destinationPath);
                     pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-                  
                 }
             }
         }
 
-      
-        private int GenerateNewProductId()   // 🔥
+        private int GenerateNewProductId()
         {
             var list = _sanPhamservice.GetProducts();
             if (list != null && list.Any())
@@ -125,18 +136,15 @@ namespace PRO131_01
             return 1;
         }
 
-        
-        private void BindingToModel(SanPham sanPham, bool isNew)   
+        private void BindingToModel(SanPham sanPham, bool isNew)
         {
-            
-            if (!isNew) 
+            if (!isNew)
                 sanPham.MaSanPham = int.TryParse(textBoxMa.Text, out int ma) ? ma : 0;
 
             sanPham.TenSanPham = textBoxTen.Text?.Trim();
             sanPham.MoTa = RichTextBoxMoTa.Text;
             sanPham.SoLuongTonKho = (int)numericUpDownSoLuong.Value;
 
-          
             sanPham.HinhAnh = string.IsNullOrWhiteSpace(currentImagePath) ? sanPham.HinhAnh : currentImagePath;
 
             if (decimal.TryParse(txtGiaBan.Text, out decimal gia))
@@ -147,12 +155,17 @@ namespace PRO131_01
             if (comboBoxLoaiSp.SelectedValue != null)
                 sanPham.MaLoaiSanPham = (int)comboBoxLoaiSp.SelectedValue;
             else
-                sanPham.MaLoaiSanPham = null; 
+                sanPham.MaLoaiSanPham = null;
+
+         
+            if (cbxMaNhaCungCap.SelectedValue != null)
+                sanPham.MaNhaCungCap = (int)cbxMaNhaCungCap.SelectedValue;
+            else
+                sanPham.MaNhaCungCap = null;
         }
 
         private void buttonThem_Click(object sender, EventArgs e)
         {
-            
             if (string.IsNullOrWhiteSpace(textBoxTen.Text))
             {
                 MessageBox.Show("Vui lòng nhập Tên sản phẩm.");
@@ -162,15 +175,14 @@ namespace PRO131_01
 
             SanPham sanPham = new SanPham
             {
-                MaSanPham = GenerateNewProductId()   
+                MaSanPham = GenerateNewProductId()
             };
 
-            BindingToModel(sanPham, true);   
+            BindingToModel(sanPham, true);
             _sanPhamservice.Them(sanPham);
             LoadTable();
             MessageBox.Show("Thêm sản phẩm thành công!");
 
-           
             buttonLamMoi_Click(sender, e);
         }
 
@@ -179,7 +191,7 @@ namespace PRO131_01
             if (dataGridView1.CurrentRow?.DataBoundItem is SanPham sanPham)
             {
                 int index = dataGridView1.CurrentRow.Index;
-                BindingToModel(sanPham, false);   
+                BindingToModel(sanPham, false);
                 _sanPhamservice.Sua(sanPham);
                 LoadTable();
                 if (index >= 0 && index < dataGridView1.Rows.Count)
@@ -212,24 +224,20 @@ namespace PRO131_01
 
         private void buttonLamMoi_Click(object sender, EventArgs e)
         {
-            textBoxMa.Text = "";                     
+            textBoxMa.Text = "";
             textBoxTen.Text = "";
             RichTextBoxMoTa.Text = "";
             comboBoxLoaiSp.SelectedIndex = -1;
+            cbxMaNhaCungCap.SelectedIndex = -1;   // [THÊM] reset NCC
             numericUpDownSoLuong.Value = 0;
             txtGiaBan.Text = "0";
             pictureBox1.Image = null;
-            currentImagePath = "";                 
-
+            currentImagePath = "";
         }
 
-        private void textBox1_TextChanged_1(object sender, EventArgs e)
-        {
-        }
+        private void textBox1_TextChanged_1(object sender, EventArgs e) { }
 
-        private void label7_Click(object sender, EventArgs e)
-        {
-        }
+        private void label7_Click(object sender, EventArgs e) { }
 
         private void textBoxTimKiem_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -240,9 +248,7 @@ namespace PRO131_01
             }
         }
 
-        private void comboBoxLSP_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
+        private void comboBoxLSP_SelectedIndexChanged(object sender, EventArgs e) { }
 
         private void txtGiaBan_TextChanged(object sender, EventArgs e)
         {
@@ -252,13 +258,11 @@ namespace PRO131_01
             if (!decimal.TryParse(txtGiaBan.Text, out _))
             {
                 txtGiaBan.Text = "0";
-                txtGiaBan.SelectionStart = txtGiaBan.Text.Length; 
+                txtGiaBan.SelectionStart = txtGiaBan.Text.Length;
             }
         }
 
-        private void comboBoxLoaiSp_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
+        private void comboBoxLoaiSp_SelectedIndexChanged(object sender, EventArgs e) { }
 
         private void LoadComboBoxLoaiSanPham()
         {
@@ -266,8 +270,34 @@ namespace PRO131_01
 
             comboBoxLoaiSp.DataSource = loaiSanPhams;
             comboBoxLoaiSp.DisplayMember = "TenSanPhamChiTiet";
-            comboBoxLoaiSp.ValueMember = "MaSanPhamChiTiet";   
+            comboBoxLoaiSp.ValueMember = "MaSanPhamChiTiet";
             comboBoxLoaiSp.SelectedIndex = -1;
+        }
+
+        private void cbxMaNhaCungCap_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_loadingNCC) return; 
+        }
+
+        
+        private void LoadNhaCungCap()
+        {
+            _loadingNCC = true;
+            using (var db = new CategoryDbContext())
+            {
+                
+                cbxMaNhaCungCap.DisplayMember = "TenNhaCungCap";
+                cbxMaNhaCungCap.ValueMember = "MaNhaCungCap";
+
+                var nccList = db.NhaCungCaps
+                                .Select(n => new { n.MaNhaCungCap, n.TenNhaCungCap })
+                                .ToList();
+
+                cbxMaNhaCungCap.DataSource = nccList;
+                cbxMaNhaCungCap.SelectedIndex = -1;
+                cbxMaNhaCungCap.DropDownStyle = ComboBoxStyle.DropDownList;
+            }
+            _loadingNCC = false;
         }
     }
 }
