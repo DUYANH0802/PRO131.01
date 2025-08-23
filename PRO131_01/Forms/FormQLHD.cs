@@ -1,5 +1,6 @@
 ﻿using PRO131_01.Data;
 using PRO131_01.Models;
+using PRO131_01.Repositories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,15 +10,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PRO131_01.Repositories;
 
 namespace PRO131_01.Forms
 {
     public partial class FormQLHD : Form
     {
+        private readonly HoaDonRepository _repo;
         private HoaDon _selectedHoaDon = null;
+
         public FormQLHD()
         {
             InitializeComponent();
+            string connStr = @"Data Source=LINHANDY\SQLEXPRESS01;Initial Catalog=PRO131_01;Integrated Security=True;TrustServerCertificate=True";
+            _repo = new HoaDonRepository(connStr);
+            dtpFrom.Format = DateTimePickerFormat.Custom;
+            dtpFrom.CustomFormat = "dd/MM/yyyy";
+            dtpFrom.ShowCheckBox = true;
+
+            dtpTo.Format = DateTimePickerFormat.Custom;
+            dtpTo.CustomFormat = "dd/MM/yyyy";
+            dtpTo.ShowCheckBox = true;
         }
 
         private void FormQLHD_Load(object sender, EventArgs e)
@@ -139,6 +152,18 @@ namespace PRO131_01.Forms
                     }
                 }
             }
+        }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            DateOnly? from = dtpFrom.Checked ? DateOnly.FromDateTime(dtpFrom.Value.Date) : (DateOnly?)null;
+            DateOnly? to = dtpTo.Checked ? DateOnly.FromDateTime(dtpTo.Value.Date) : (DateOnly?)null;
+
+            var dt = _repo.FindByDateRange(from, to);
+            dgvHoaDon.DataSource = dt;
+
+            if (dgvHoaDon.Columns.Contains("NgayLap"))
+                dgvHoaDon.Columns["NgayLap"].DefaultCellStyle.Format = "dd/MM/yyyy";
         }
     }
 }

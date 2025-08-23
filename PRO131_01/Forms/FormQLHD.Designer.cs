@@ -32,6 +32,11 @@
             btnLamMoi = new Button();
             dgvChiTietHD = new DataGridView();
             btnXoa = new Button();
+            dtpFrom = new DateTimePicker();
+            dtpTo = new DateTimePicker();
+            btnFilter = new Button();
+            label2 = new Label();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvHoaDon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvChiTietHD).BeginInit();
             SuspendLayout();
@@ -75,11 +80,58 @@
             btnXoa.UseVisualStyleBackColor = true;
             btnXoa.Click += btnXoa_Click;
             // 
+            // dtpFrom
+            // 
+            dtpFrom.Location = new Point(1032, 178);
+            dtpFrom.Name = "dtpFrom";
+            dtpFrom.Size = new Size(250, 27);
+            dtpFrom.TabIndex = 4;
+            // 
+            // dtpTo
+            // 
+            dtpTo.Location = new Point(1032, 226);
+            dtpTo.Name = "dtpTo";
+            dtpTo.Size = new Size(250, 27);
+            dtpTo.TabIndex = 5;
+            // 
+            // btnFilter
+            // 
+            btnFilter.Location = new Point(1122, 286);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(94, 29);
+            btnFilter.TabIndex = 6;
+            btnFilter.Text = "Lọc";
+            btnFilter.UseVisualStyleBackColor = true;
+            btnFilter.Click += btnFilter_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(969, 233);
+            label2.Name = "label2";
+            label2.Size = new Size(36, 20);
+            label2.TabIndex = 8;
+            label2.Text = "Đến";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(969, 184);
+            label1.Name = "label1";
+            label1.Size = new Size(26, 20);
+            label1.TabIndex = 9;
+            label1.Text = "Từ";
+            // 
             // FormQLHD
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1378, 773);
+            Controls.Add(label1);
+            Controls.Add(label2);
+            Controls.Add(btnFilter);
+            Controls.Add(dtpTo);
+            Controls.Add(dtpFrom);
             Controls.Add(btnXoa);
             Controls.Add(dgvChiTietHD);
             Controls.Add(btnLamMoi);
@@ -90,6 +142,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvHoaDon).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvChiTietHD).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -98,5 +151,10 @@
         private Button btnLamMoi;
         private DataGridView dgvChiTietHD;
         private Button btnXoa;
+        private DateTimePicker dtpFrom;
+        private DateTimePicker dtpTo;
+        private Button btnFilter;
+        private Label label2;
+        private Label label1;
     }
 }
