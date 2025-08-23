@@ -22,7 +22,7 @@ namespace PRO131_01.Forms
         public FormQLHD()
         {
             InitializeComponent();
-            string connStr = @"Data Source=LINHANDY\SQLEXPRESS01;Initial Catalog=PRO131_01;Integrated Security=True;TrustServerCertificate=True";
+            string connStr = @"Data Source=NGUYENDUYANH\SQLEXPRESS;Initial Catalog=PRO131_01;Integrated Security=True;TrustServerCertificate=True";
             _repo = new HoaDonRepository(connStr);
             dtpFrom.Format = DateTimePickerFormat.Custom;
             dtpFrom.CustomFormat = "dd/MM/yyyy";

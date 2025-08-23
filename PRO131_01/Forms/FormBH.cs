@@ -39,7 +39,6 @@ namespace PRO131_01.Forms
             {
                 using (var db = new CategoryDbContext())
                 {
-                    //danhSachSP = db.SanPhams.ToList();
                     var query = (from sp in db.SanPhams
                                  join ncc in db.NhaCungCaps on sp.MaNhaCungCap equals ncc.MaNhaCungCap into nccGroup
                                  from ncc in nccGroup.DefaultIfEmpty()
@@ -58,34 +57,19 @@ namespace PRO131_01.Forms
                                      TenNhaCungCap = ncc != null ? ncc.TenNhaCungCap : "",
                                      sp.MoTa
                                  }).ToList();
-                    // Chuyển đổi kết quả sang DataTable để dễ dàng binding và lấy dữ liệu
+
+                    
                     dataForGrid = ConvertToDataTable(query);
                     dgvSanPham.DataSource = dataForGrid;
+
+                   
+                    ConfigureSanPhamGridColumns();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi khi tải sản phẩm: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //dgvSanPham.DataSource = danhSachSP.Select(sp => new
-            //{
-            //    sp.MaSanPham,
-            //    sp.TenSanPham,
-            //    sp.MoTa,
-            //    sp.GiaBan,
-            //    sp.SoLuongTonKho,
-            //    sp.HinhAnh,
-            //    sp.MaLoaiSanPham,
-            //    sp.MaNhaCungCap
-            //}).ToList();
-            //dgvSanPham.Columns["MaSanPham"].HeaderText = "Mã sản phẩm";
-            //dgvSanPham.Columns["TenSanPham"].HeaderText = "Tên sản phẩm";
-            //dgvSanPham.Columns["MoTa"].HeaderText = "Mô tả";
-            //dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
-            //dgvSanPham.Columns["SoLuongTonKho"].HeaderText = "Số lượng tồn";
-            //dgvSanPham.Columns["HinhAnh"].HeaderText = "Hình ảnh";
-            //dgvSanPham.Columns["MaLoaiSanPham"].HeaderText = "Loại sản phẩm";
-            //dgvSanPham.Columns["MaNhaCungCap"].HeaderText = "Nhà cung cấp";                                
         }
         // Hàm chuyển đổi danh sách sang DataTable
         private DataTable ConvertToDataTable<T>(IEnumerable<T> data)
