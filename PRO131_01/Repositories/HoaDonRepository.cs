@@ -18,11 +18,21 @@ namespace PRO131_01.Repositories
             using var conn = new SqlConnection(_connStr);
             using var cmd = conn.CreateCommand();
             cmd.CommandText = @"
-                SELECT MaHoaDon, NgayLap, TongTien, TrangThai, MaKhachHang, MaNhanVien
-                FROM HoaDon
-                WHERE (@from IS NULL OR NgayLap >= @from)
-                  AND (@to   IS NULL OR NgayLap <= @to)
-                ORDER BY NgayLap DESC;";
+        SELECT 
+            hd.MaHoaDon,
+            hd.NgayLap,
+            hd.TongTien,
+            hd.TrangThai,
+            kh.TenKhachHang       AS [Khách hàng],
+            nv.HoTen        AS [Nhân viên]
+        FROM HoaDon hd
+        INNER JOIN KhachHang kh ON hd.MaKhachHang = kh.MaKhachHang
+        INNER JOIN NhanVien  nv ON hd.MaNhanVien  = nv.MaNhanVien
+        WHERE (@from IS NULL OR hd.NgayLap >= @from)
+          AND (@to   IS NULL OR hd.NgayLap < DATEADD(day, 1, @to))
+        ORDER BY hd.NgayLap DESC;";
+
+
 
             var pFrom = new SqlParameter("@from", SqlDbType.Date)
             { Value = (object?)from?.ToDateTime(TimeOnly.MinValue) ?? DBNull.Value };
